@@ -1,15 +1,9 @@
 import BaseModel from './BaseModel';
 export default class Player extends BaseModel {
-    /** @type {string} */
-    name;
-    /** @type {number} */
-    points;
-    /** @type {PlayerPosition} */
-    position;
-    /** @type {number} */
-    FPPG;
-    /** @type {number} */
-    salary;
-    /** @type {Team} */
-    team;
+    name: string;
+    points: number;
+    position: PlayerPosition;
+    FPPG: number;
+    salary: number;
+    team: Team;
 }

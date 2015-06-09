@@ -1,21 +1,12 @@
 import BaseModel from './BaseModel';
 export default class Game extends BaseModel {
-    /** @type {Date} */
-    date;
-    /** @type {EventType} */
-    eventType;
-    /** @type {Team} */
-    team1;
-    /** @type {Team} */
-    team2;
-    /** @type {number} */
-    team1Score;
-    /** @type {number} */
-    team2Score;
-    /** @type {number} */
-    periods;
-    /** @type {number} */
-    activePeriod;
-    /** @type {Contest[]} */
-    contests;
+    date: Date;
+    eventType: EventType;
+    team1: Team;
+    team2: Team;
+    team1Score: number;
+    team2Score: number;
+    periods: number;
+    activePeriod: number;
+    contests: Array<Contest>;
 }

@@ -1,11 +1,7 @@
 import BaseModel from './BaseModel';
 export default class Account extends BaseModel {
-    /** @type {string} */
-    name;
-    /** @type {string} */
-    email;
-    /** @type {number} */
-    balance;
-    /** @type {Contest[]} */
-    history;
+    name: string;
+    email: string;
+    balance: number;
+    history: Array<Contest>;
 }
