@@ -19,12 +19,12 @@ export default class MainFilters extends React.Component {
     render() {
         return (
             <div>
-                <button onClick={()=>this.setActive(null)}
+                <div onTouchTap={()=>this.setActive(null)}
                         className={this.isActive(null)}>All
-                </button>
+                </div>
                 {leagueStore.data.map((league:League) =>
-                    <button onClick={()=>this.setActive(league)}
-                            className={this.isActive(league)}>{league.name}</button>)}
+                    <div onTouchTap={()=>this.setActive(league)}
+                            className={this.isActive(league)}>{league.name}</div>)}
             </div>
         );
     }

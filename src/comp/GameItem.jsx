@@ -20,7 +20,7 @@ export default class GameItem extends React.Component {
                         </span> : null}
                 </div>
                 <div>
-                    {game.team1.name} — {game.team2.name}
+                    {game.team1.name + '–' + game.team2.name}
                 </div>
             </div>
         );
