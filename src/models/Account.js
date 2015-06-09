@@ -1,4 +1,4 @@
-import BaseModel from './BaseModel';
+let BaseModel = require('./BaseModel');
 export default class Account extends BaseModel {
     name: string;
     email: string;

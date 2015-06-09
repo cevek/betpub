@@ -1,19 +1,9 @@
-import './main.css';
-import Bar from './Bar.js';
-import React from 'react';
-import MyComp from './MyComp';
+let React = require('react');
+let App = require('./comp/App');
+require('./main.css');
 
-
-class Wow{
-	constructor(){
-		var bar = new Bar();
-		console.log("Yeah!", bar.name);
-	}
-}
-new Wow();
-
-
-
-React.render(<MyComp/>, document.querySelector('#test'));
+var container = document.createElement('div');
+document.body.appendChild(container);
+React.render(<App/>, container);
 
 
