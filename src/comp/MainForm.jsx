@@ -7,7 +7,7 @@ export default class MainForm extends React.Component {
         super(props);
     }
 
-    state = {filterDate: null};
+    state = {filterDate: null, filterLeague: null};
     days = [new Date("2015-06-13T16:00:00Z"), new Date("2015-06-14T16:00:00Z"), new Date("2015-06-15T16:00:00Z")];
     currentDay = new Date("2015-06-14T16:00:00Z");
 
@@ -15,24 +15,31 @@ export default class MainForm extends React.Component {
         this.setState({filterDate: date});
     }
 
+    getDays() {
+        let days = this.state.filterDate && this.state.filterDate.getTime() ? [this.state.filterDate] : this.days;
+        return days.filter(day => gameStore.getGamesByDay(day, false, this.state.filterLeague, null).length > 0);
+    }
+
+    setLeague(league) {
+        this.setState({filterLeague: league});
+    }
+
 
     render() {
-        let days = this.state.filterDate && this.state.filterDate.getTime() ? [this.state.filterDate] : this.days;
-        days = days.filter(day => gameStore.getGamesByDay(day, false, null, null).length > 0);
         return (
             <div>
-                <MainFilters/>
+                <MainFilters onChange={(league)=>this.setLeague(league)}/>
 
                 <h2>Live</h2>
-                <LeagueGroups day={this.currentDay} isLive={true}/>
+                <LeagueGroups day={this.currentDay} league={this.state.filterLeague} isLive={true}/>
 
                 <h2>Scheduled</h2>
                 <input onInput={(e)=>this.changeDate(new Date(e.target.value))} type="date"/>
                 {
-                    days.map(day =>
+                    this.getDays().map(day =>
                         <div>
                             <h3>{day.toDateString()}</h3>
-                            <LeagueGroups day={day} isLive={false}/>
+                            <LeagueGroups day={day} league={this.state.filterLeague} isLive={false}/>
                         </div>)}
             </div>
         );

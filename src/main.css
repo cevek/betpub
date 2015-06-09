@@ -3,6 +3,10 @@ body {
     font-size: 14px;
 }
 
+* {
+    outline: none;
+}
+
 .header {
     background: gray;
     color: white;
@@ -13,4 +17,13 @@ body {
     padding: 5px;
     border: 1px solid silver;
     margin: -1px 0 0 0;
+}
+
+button {
+    background: #EEE;
+}
+
+button.active {
+    background: gray;
+    color: white;
 }

@@ -29,9 +29,10 @@ export default class LeagueGroups extends React.Component {
     }
 
     render() {
+        let data = this.props.league ? [this.props.league] : leagueStore.data;
         return (
             <div>
-                {leagueStore.data.map((league:League) =>
+                {data.map((league:League) =>
                         league.events.map((event:LeagueEventType) =>
                             <GameItems isLive={this.props.isLive}
                                        day={this.props.day}
