@@ -1,4 +1,4 @@
-let React = require('react');
+let React = require('./Dom');
 export default class SideBar extends React.Component {
     constructor(props) {
         super(props);

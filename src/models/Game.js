@@ -42,21 +42,18 @@ export class Game extends BaseModel {
         this.contests = json.contests.map(contestId => contestStore.getById(contestId));
     }
 
-    inFilter(from:Date, to:Date, isLive:boolean, league:League, eventType:LeagueEventType) {
-        let dateEqual = from <= this.date && this.date <= to;
-        let eventTypeEqual = !eventType || eventType === this.eventType;
-        let leagueEqual = !league || league === this.eventType.league;
-        return dateEqual && eventTypeEqual && leagueEqual && this.isLive() === isLive;
+    isDay(day:Date, isLive:boolean) {
+        var fullYear = day.getFullYear();
+        var month = day.getMonth();
+        var date2 = day.getDate();
+        var from = new Date(fullYear, month, date2);
+        var to = new Date(fullYear, month, date2 + 1);
+        return from <= this.date && this.date <= to && this.live === isLive;
     }
 }
 
 export class GameStore extends BaseStore {
-    getGamesByDay(day:Date, isLive:boolean, league:League, eventType:LeagueEventType):Array<Game> {
-        var from = new Date(day.getFullYear(), day.getMonth(), day.getDate());
-        var to = new Date(day.getFullYear(), day.getMonth(), day.getDate() + 1);
-        var ff = this.data.filter(game => game.inFilter(from, to, isLive, league, eventType));
-        return ff;
-    }
+
 }
 export let gameStore = new GameStore();
 

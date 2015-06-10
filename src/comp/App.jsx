@@ -1,6 +1,5 @@
 require('../Data');
-var injectTapEventPlugin = require("react-tap-event-plugin");
-injectTapEventPlugin();
+require('../Utils');
 
 /*
 document.addEventListener('selectstart', (e)=> {
@@ -10,7 +9,7 @@ document.addEventListener('selectstart', (e)=> {
 
 document.addEventListener("touchstart", function(){}, true);
 
-let React = require('react');
+let React = require('./Dom');
 let SideBar = require('./SideBar');
 let MainForm = require('./MainForm');
 export default class App extends React.Component {

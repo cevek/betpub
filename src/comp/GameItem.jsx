@@ -1,4 +1,4 @@
-let React = require('react');
+let React = require('./Dom');
 let {getOrdinal, formatAMPM} = require('../Utils');
 
 export default class GameItem extends React.Component {

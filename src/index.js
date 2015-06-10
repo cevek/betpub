@@ -1,4 +1,4 @@
-let React = require('react');
+let React = require('./comp/Dom');
 let App = require('./comp/App');
 require('./main.css');
 

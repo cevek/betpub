@@ -1,6 +1,6 @@
-let React = require('react');
+let React = require('./Dom');
 let MainFilters = require('./MainFilters');
-let LeagueGroups = require('./LeagueGroups');
+let GameList = require('./GameList');
 let {gameStore} = require('../models/Game');
 export default class MainForm extends React.Component {
     constructor(props) {
@@ -8,8 +8,7 @@ export default class MainForm extends React.Component {
     }
 
     state = {filterDate: null, filterLeague: null};
-    days = [new Date("2015-06-13T16:00:00Z"), new Date("2015-06-14T16:00:00Z"), new Date("2015-06-15T16:00:00Z")];
-    currentDay = new Date("2015-06-14T16:00:00Z");
+    days = [];
 
     changeDate(date:Date) {
         this.setState({filterDate: date});
@@ -17,7 +16,11 @@ export default class MainForm extends React.Component {
 
     getDays() {
         let days = this.state.filterDate && this.state.filterDate.getTime() ? [this.state.filterDate] : this.days;
-        return days.filter(day => gameStore.getGamesByDay(day, false, this.state.filterLeague, null).length > 0);
+        return days;
+    }
+
+    leagueFilter() {
+        return this.state.filterDate && this.state.filterDate.getTime() ? [this.state.filterDate] : days;
     }
 
     setLeague(league) {
@@ -25,22 +28,49 @@ export default class MainForm extends React.Component {
     }
 
 
+    dayGames;
+    liveGames;
+
+    filterGames() {
+        this.dayGames = {};
+        this.liveGames = [];
+        gameStore.data.forEach((game:Game) => {
+            if (this.state.filterLeague && game.eventType.league !== this.state.filterLeague) {
+                return;
+            }
+            if (game.isLive()) {
+                this.liveGames.push(game);
+            }
+            else {
+                if (this.state.filterDate && this.state.filterDate.getTime() && this.state.filterDate.getDayInt() !== game.date.getDayInt()) {
+                    return;
+                }
+                var dayInt = game.date.getDayInt();
+                this.dayGames[dayInt] = this.dayGames[dayInt] || {day: game.date, games: []};
+                this.dayGames[dayInt].games.push(game);
+            }
+        });
+    }
+
+
     render() {
+        this.filterGames();
         return (
             <div>
-                <MainFilters onChange={(league)=>this.setLeague(league)}/>
+                <MainFilters active={this.state.filterLeague} onChange={(league)=>this.setLeague(league)}/>
 
                 <h2>Live</h2>
-                <LeagueGroups day={this.currentDay} league={this.state.filterLeague} isLive={true}/>
+                <GameList games={this.liveGames}/>
 
                 <h2>Scheduled</h2>
                 <input onInput={(e)=>this.changeDate(new Date(e.target.value))} type="date"/>
                 {
-                    this.getDays().map(day =>
-                        <div>
-                            <h3>{day.toDateString()}</h3>
-                            <LeagueGroups day={day} league={this.state.filterLeague} isLive={false}/>
-                        </div>)}
+                    Object.keys(this.dayGames).map(dayInt => this.dayGames[dayInt].games.length ?
+                            <div key={dayInt}>
+                                <h3>{this.dayGames[dayInt].day.toDateString()}</h3>
+                                <GameList games={this.dayGames[dayInt].games}/>
+                            </div> : null
+                    )}
             </div>
         );
     }
