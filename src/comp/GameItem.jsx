@@ -6,10 +6,15 @@ export default class GameItem extends React.Component {
         super(props);
     }
 
+    click() {
+        location.hash = '/game/' + this.props.game.id;
+    }
+
+
     render() {
         let game:Game = this.props.game;
         return (
-            <div className='item'>
+            <div onTouchTap={()=>this.click()} className='item'>
                 <div>
                     <span>{formatAMPM(game.date)}</span>
                     {game.isLive() ?

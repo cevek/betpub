@@ -1,5 +1,8 @@
 require('../Data');
 require('../Utils');
+var Router = require('react-router');
+var RouteHandler = Router.RouteHandler;
+
 
 /*
 document.addEventListener('selectstart', (e)=> {
@@ -9,9 +12,9 @@ document.addEventListener('selectstart', (e)=> {
 
 document.addEventListener("touchstart", function(){}, true);
 
+
 let React = require('./Dom');
 let SideBar = require('./SideBar');
-let MainForm = require('./MainForm');
 export default class App extends React.Component {
     constructor(props) {
         super(props);
@@ -21,7 +24,7 @@ export default class App extends React.Component {
         return (
             <div>
                 <SideBar/>
-                <MainForm/>
+                <RouteHandler/>
             </div>
         );
     }
