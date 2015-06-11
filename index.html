@@ -9,5 +9,89 @@
 <body>
 <script type="text/javascript" src="cito.js"></script>
 <script type="text/javascript" src="assets/bundle.js"></script>
+
+<script>
+    var counter = 0;
+    function render(Component) {
+        return function (oldChild) {
+            if (oldChild) {
+                cmp = oldChild.cmp;
+            }
+            else {
+                var cmp = new Component();
+            }
+            var node = {tag: 'div', key: Component.name, cmp: cmp, children: cmp.render()};
+            cmp.node = node;
+            return node;
+        };
+    }
+
+
+    function prepareChildren(context, children) {
+        return children.map(function (child) {
+            if (typeof child === 'function') {
+                return render(child);
+            }
+            return child;
+        });
+
+    }
+
+    function updateComp() {
+        var newNode = render(this.constructor);
+        cito.vdom.update(this.node, newNode);
+    }
+
+
+    function App() {
+        console.log("App constructor");
+    }
+    App.prototype.render = function () {
+        console.log("App render");
+        return {tag: 'div', children: prepareChildren(this, ['App', Game, Math.random() + ''])}
+    };
+
+    function Game() {
+        this.counter = 0;
+        console.log("Game constructor");
+    }
+    Game.prototype.render = function () {
+        console.log("Game render");
+        var that = this;
+        return {
+            tag: 'div',
+            children: prepareChildren(this, [
+                'Game' + that.counter, {
+                    tag: 'button', children: 'click', events: {
+                        click: function () {
+                            that.counter++;
+                            that.update();
+                        }
+                    }
+                },
+                Player
+            ])
+        }
+    };
+    Game.prototype.update = updateComp;
+
+    function Player() {
+        console.log("Player constructor");
+    }
+    Player.prototype.render = function () {
+        console.log("Player render");
+        return {tag: 'div', children: ['Player']}
+    };
+
+    var dom = new App().render();
+//    cito.vdom.append(document.body, dom);
+
+    function update() {
+        var newNode = new App().render();
+        cito.vdom.update(dom, newNode);
+        dom = newNode;
+    }
+</script>
+<!--<button onclick="update()"></button>-->
 </body>
 </html>

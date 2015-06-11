@@ -4,7 +4,7 @@ export default class BaseModel {
     getById(id:string) {
         for (var i = 0; i < this.data.length; i++) {
             var item = this.data[i];
-            if (item.id === id) {
+            if (item.id == id) {
                 return item;
             }
         }

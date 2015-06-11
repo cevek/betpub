@@ -36,3 +36,40 @@ body {
     background: gray;
     color: white;
 }
+
+.game-info {
+}
+.game-info .top{
+    overflow: hidden;
+    margin: 0 0 30px 0;
+}
+
+.game-info .game-name {
+    float: right;
+}
+
+.game-info .date {
+    float: left;
+}
+
+.game-info .date .mode {
+    font-size: 18px;
+}
+
+.game-info .team {
+    float: left;
+    font-weight: bold;
+}
+
+.game-info .team2 {
+    float: right;
+}
+
+.game-info .score{
+    text-align: center;
+}
+.game-info .score .big {
+    font-size: 50px;
+    margin: -20px 0 0 0;
+}
+
