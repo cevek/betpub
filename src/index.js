@@ -1,6 +1,6 @@
 let React = require('./comp/Dom');
 let App = require('./comp/App');
-let GameInfo = require('./comp/GameInfo');
+let GamePage = require('./comp/GamePage');
 let MainForm = require('./comp/MainForm');
 var Router = require('react-router');
 var Route = Router.Route;
@@ -11,7 +11,7 @@ require('./main.css');
 var routes = (
     <Route handler={App} path="/">
         <Route path="/" handler={MainForm}/>
-        <Route path="/game/:id" handler={GameInfo}/>
+        <Route path="/game/:id" handler={GamePage}/>
     </Route>
 );
 

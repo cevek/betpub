@@ -1,10 +1,29 @@
+let {PlayerPosition, playerPositionStore} = require('./models/PlayerPosition');
 let {Game, gameStore} = require('./models/Game');
 let {Team, teamStore} = require('./models/Team');
 let {Contest, contestStore} = require('./models/Contest');
+let {Player, playerStore} = require('./models/Player');
 let {League, leagueStore} = require('./models/League');
 let {LeagueEventType, leagueEventTypeStore} = require('./models/LeagueEventType');
 let json = require('json!./mock.json');
 
+
+//positions
+json.positions.forEach(positionJson => {
+    var position = new PlayerPosition(positionJson);
+    playerPositionStore.data.push(position);
+});
+
+//player
+json.players.forEach(playerJson => {
+    playerJson.positionId = 1;
+    var player = new Player(playerJson);
+    playerStore.data.push(player);
+});
+
+console.log(playerStore);
+
+//teams
 json.teams.forEach(teamJson => {
     teamStore.data.push(new Team(teamJson));
 });
@@ -47,4 +66,4 @@ json.leagues.forEach(leagueJson => {
     leagueStore.data.push(league);
 });
 
-console.log(leagueStore);
+//console.log(leagueStore);

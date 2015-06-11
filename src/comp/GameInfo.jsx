@@ -1,5 +1,4 @@
 import React from 'react';
-let {gameStore} = require('../models/Game');
 let {formatAMPM, getOrdinal} = require('../Utils');
 export default class GameInfo extends React.Component {
     constructor(props) {
@@ -10,9 +9,7 @@ export default class GameInfo extends React.Component {
     }
 
     render() {
-        var id = this.props.params.id;
-        var game:Game = gameStore.getById(id);
-
+        let game = this.props.game;
         return (
             <div className="game-info">
                 <div className="top">
@@ -29,9 +26,6 @@ export default class GameInfo extends React.Component {
                 <div className="team team1">
                     {game.team1.name}
                 </div>
-                <div className="team team2">
-                    {game.team2.name}
-                </div>
 
                 {game.isLive() ?
                     <div className="score">
@@ -40,7 +34,9 @@ export default class GameInfo extends React.Component {
                     </div>
                     : null
                 }
-
+                <div className="team team2">
+                    {game.team2.name}
+                </div>
             </div>
         );
     }
