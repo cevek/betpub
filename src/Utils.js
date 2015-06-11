@@ -17,3 +17,23 @@ export function formatAMPM(date) {
 Date.prototype.getDayInt = function () {
     return this.getFullYear() * 10000 + (this.getMonth() + 1) * 100 + this.getDate();
 };
+
+Array.prototype.groupBy = function (groupFn) {
+    var map = new Map();
+    for (var i = 0; i < this.length; i++) {
+        var item = this[i];
+        var group = groupFn(item);
+        var items = map.get(group);
+        if (!items) {
+            items = [];
+            map.set(group, items);
+        }
+        items.push(item);
+    }
+
+    var ret = [];
+    map.forEach((value, key)=>{
+        ret.push({group: key, items: value});
+    });
+    return ret;
+};

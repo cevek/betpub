@@ -5,7 +5,6 @@ body {
 
 * {
     -webkit-touch-callout: none !important;
-    -webkit-user-select: none !important; /* Disable selection/copy in UIWebView */
     outline: none !important;
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
@@ -23,6 +22,7 @@ body {
 }
 
 .btn {
+    -webkit-user-select: none !important;
     background: #EEE;
     font-size: 20px;
     display: inline-block;
@@ -80,6 +80,7 @@ body {
 }
 
 table {
+    width: 100%;
     border: 1px solid;
     border-collapse: collapse
 }
@@ -94,19 +95,22 @@ table th, table td {
     padding: 4px 7px;
 }
 
-.line-up .player-name{
-    width: 200px;
+.line-up .player-name {
+    width: 80%;
 }
-.line-up .right{
+
+.line-up .right {
     text-align: right;
 }
 
-.game-page{
+.game-page {
 
 }
-.game-page .enter{
+
+.game-page .enter {
     text-align: center;
 }
-.game-page .enter button{
+
+.game-page .enter button {
     font-size: 18px;
 }

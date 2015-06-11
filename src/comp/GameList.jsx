@@ -5,30 +5,14 @@ export default class GameList extends React.Component {
         super(props);
     }
 
-    leagueEvents;
-    leagueEventsHash;
-
-    sort() {
-        this.leagueEvents = [];
-        this.leagueEventsHash = {};
-        this.props.games.forEach((game:Game) => {
-            var id = game.eventType.id;
-            if (!this.leagueEventsHash[id]) {
-                this.leagueEvents.push(game.eventType);
-                this.leagueEventsHash[id] = [];
-            }
-            this.leagueEventsHash[id].push(game);
-        });
-    }
-
     render() {
-        this.sort();
+        var groupped = this.props.games.groupBy((game:Game) => game.eventType);
         return (
             <div>
-                {this.leagueEvents.map(event =>
+                {groupped.map(({group, items}) =>
                         <div className="group">
-                            <div className="header">{event.league.name + ' – ' + event.name}</div>
-                            {this.leagueEventsHash[event.id].map((game:Game) =>
+                            <div className="header">{group.league.name + ' – ' + group.name}</div>
+                            {items.map((game:Game) =>
                                     <GameItem key={game.id} game={game}/>
                             )}
                         </div>
