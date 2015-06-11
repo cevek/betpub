@@ -1,4 +1,4 @@
-var isCito = location.hash.indexOf('cito') > -1;
+let isCito = location.hash.indexOf('cito') > -1;
 class Component {
     constructor(props) {
         this.props = props;
@@ -8,7 +8,7 @@ class Component {
     setState(obj) {
         Object.keys(obj).forEach(key => this.state[key] = obj[key]);
         console.time('update');
-        var node = this.render();
+        let node = this.render();
         if (isCito) {
             cito.vdom.update(this.node, node);
         }
@@ -23,9 +23,9 @@ class Component {
 
 
 function flatArray(array) {
-    var nodes = [];
-    for (var i = 0; i < array.length; i++) {
-        var child = array[i];
+    let nodes = [];
+    for (let i = 0; i < array.length; i++) {
+        let child = array[i];
         if (child instanceof Array) {
             nodes = nodes.concat(flatArray(child));
         }
@@ -49,7 +49,7 @@ class VNode {
     }
 }
 function createElement(tag, props, ...children) {
-    var node;
+    let node;
     if (typeof tag === 'string') {
         if (isCito) {
             node = new VNode();
@@ -81,8 +81,8 @@ function createElement(tag, props, ...children) {
         }
         if (children) {
             children = flatArray(children);
-            for (var i = 0; i < children.length; i++) {
-                var child = children[i];
+            for (let i = 0; i < children.length; i++) {
+                let child = children[i];
                 if (typeof child === 'string') {
                     if (isCito) {
                     }
@@ -101,7 +101,7 @@ function createElement(tag, props, ...children) {
         }
     }
     else if (typeof tag === 'function') {
-        var instance = new tag(props);
+        let instance = new tag(props);
         node = instance.render();
         instance.node = node;
     }

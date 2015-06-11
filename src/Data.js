@@ -1,23 +1,23 @@
-let {PlayerPosition, playerPositionStore} = require('./models/PlayerPosition');
-let {Game, gameStore} = require('./models/Game');
-let {Team, teamStore} = require('./models/Team');
-let {Contest, contestStore} = require('./models/Contest');
-let {Player, playerStore} = require('./models/Player');
-let {League, leagueStore} = require('./models/League');
-let {LeagueEventType, leagueEventTypeStore} = require('./models/LeagueEventType');
-let json = require('json!./mock.json');
+import {PlayerPosition, playerPositionStore} from './models/PlayerPosition';
+import {Game, gameStore} from './models/Game';
+import {Team, teamStore} from './models/Team';
+import {Contest, contestStore} from './models/Contest';
+import {Player, playerStore} from './models/Player';
+import {League, leagueStore} from './models/League';
+import {LeagueEventType, leagueEventTypeStore} from './models/LeagueEventType';
+import json from 'json!./mock.json';
 
 
 //positions
 json.positions.forEach(positionJson => {
-    var position = new PlayerPosition(positionJson);
+    let position = new PlayerPosition(positionJson);
     playerPositionStore.data.push(position);
 });
 
 //player
 json.players.forEach(playerJson => {
     playerJson.positionId = 1;
-    var player = new Player(playerJson);
+    let player = new Player(playerJson);
     playerStore.data.push(player);
 });
 
@@ -29,10 +29,10 @@ json.teams.forEach(teamJson => {
 });
 
 //games
-var k = 100;
+let k = 100;
 json.leagues.forEach(leagueJson => {
     leagueJson.events.forEach(eventJson => {
-        for (var i = 0; i < 100; i++) {
+        for (let i = 0; i < 100; i++) {
             eventJson.games.push({
                 "id": ++k,
                 "generated": true,
@@ -43,7 +43,7 @@ json.leagues.forEach(leagueJson => {
             });
         }
         eventJson.games.forEach(gameJson => {
-            var game = new Game(gameJson);
+            let game = new Game(gameJson);
             gameStore.data.push(game);
         });
     });
@@ -53,7 +53,7 @@ json.leagues.forEach(leagueJson => {
 //events
 json.leagues.forEach(leagueJson => {
     leagueJson.events.forEach(eventJson => {
-        var leagueEventType = new LeagueEventType(eventJson);
+        let leagueEventType = new LeagueEventType(eventJson);
         leagueEventType.games.forEach((game:Game) => game.eventType = leagueEventType);
         leagueEventTypeStore.data.push(leagueEventType);
     });
@@ -61,7 +61,7 @@ json.leagues.forEach(leagueJson => {
 
 //leagues
 json.leagues.forEach(leagueJson => {
-    var league = new League(leagueJson);
+    let league = new League(leagueJson);
     league.events.forEach((event:LeagueEventType) => event.league = league);
     leagueStore.data.push(league);
 });

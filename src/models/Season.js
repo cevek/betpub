@@ -1,4 +1,4 @@
-let BaseModel = require('./BaseModel');
-export default class Season extends BaseModel {
-    name: string;
+import {BaseModel} from './BaseModel';
+export class Season extends BaseModel {
+    name;
 }

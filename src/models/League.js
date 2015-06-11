@@ -1,10 +1,10 @@
-let BaseStore = require('./BaseStore');
-let BaseModel = require('./BaseModel');
-let {leagueEventTypeStore} = require('./LeagueEventType');
+import {BaseStore} from './BaseStore';
+import {BaseModel} from './BaseModel';
+import {leagueEventTypeStore} from './LeagueEventType';
 export class League extends BaseModel {
-    name:string;
-    events:Array<LeagueEventType> = [];
-    positions:Array<PlayerPosition>;
+    name;
+    events = [];
+    positions;
 
     constructor(json) {
         super();

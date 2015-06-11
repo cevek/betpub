@@ -1,15 +1,15 @@
-let BaseStore = require('./BaseStore');
-let BaseModel = require('./BaseModel');
+import {BaseStore} from './BaseStore';
+import {BaseModel} from './BaseModel';
 export class Contest extends BaseModel {
-    type:ContestType;
-    name:string;
-    game:Game;
-    entryFee:number;
-    prizes:number;
-    maxEntries:number;
-    currEntries:number;
-    winType:ContestWinType;
-    myLineup:Array<Player>;
+    type;
+    name;
+    game;
+    entryFee;
+    prizes;
+    maxEntries;
+    currEntries;
+    winType;
+    myLineup;
 }
 
 

@@ -1,13 +1,13 @@
-let BaseStore = require('./BaseStore');
-let BaseModel = require('./BaseModel');
-let {playerPositionStore} = require('./PlayerPosition');
+import {BaseStore} from './BaseStore';
+import {BaseModel} from './BaseModel';
+import {playerPositionStore} from './PlayerPosition';
 export class Player extends BaseModel {
-    name:string;
-    points:number;
-    position:PlayerPosition;
-    FPPG:number;
-    salary:number;
-    team:Team;
+    name;
+    points;
+    position;
+    FPPG;
+    salary;
+    team;
 
     constructor(json) {
         super();

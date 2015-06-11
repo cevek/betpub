@@ -1,30 +1,30 @@
-let {teamStore} = require('./Team');
-let {Contest} = require('./Contest');
-let BaseModel = require('./BaseModel');
-let BaseStore = require('./BaseStore');
+import {teamStore} from './Team';
+import {Contest} from './Contest';
+import {BaseModel} from './BaseModel';
+import {BaseStore} from './BaseStore';
 
 export class Game extends BaseModel {
-    date:Date;
-    team1:Team;
-    team2:Team;
-    team1Score:number;
-    team2Score:number;
-    period:number;
-    minute:number;
-    contests:Array<Contest> = [];
+    date;
+    team1;
+    team2;
+    team1Score;
+    team2Score;
+    period;
+    minute;
+    contests;
     //back traverse
-    eventType:LeagueEventType;
-    live:boolean;
+    eventType;
+    live;
 
     isLive() {
         return this.live;
     }
 
-    activePeriod():number {
+    activePeriod(){
         return this.period;
     }
 
-    activeMinute():number {
+    activeMinute(){
         return this.minute;
     }
 
@@ -42,12 +42,12 @@ export class Game extends BaseModel {
         this.contests = json.contests.map(contestId => contestStore.getById(contestId));
     }
 
-    isDay(day:Date, isLive:boolean) {
-        var fullYear = day.getFullYear();
-        var month = day.getMonth();
-        var date2 = day.getDate();
-        var from = new Date(fullYear, month, date2);
-        var to = new Date(fullYear, month, date2 + 1);
+    isDay(day, isLive) {
+        let fullYear = day.getFullYear();
+        let month = day.getMonth();
+        let date2 = day.getDate();
+        let from = new Date(fullYear, month, date2);
+        let to = new Date(fullYear, month, date2 + 1);
         return from <= this.date && this.date <= to && this.live === isLive;
     }
 }

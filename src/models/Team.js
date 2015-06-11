@@ -1,9 +1,9 @@
-let BaseStore = require('./BaseStore');
-let BaseModel = require('./BaseModel');
-let {playerStore} = require('./Player');
+import {BaseStore} from './BaseStore';
+import {BaseModel} from './BaseModel';
+import {playerStore} from './Player';
 export class Team extends BaseModel {
-    name:string;
-    players:Array<Player> = [];
+    name;
+    players = [];
 
     constructor(json) {
         super();

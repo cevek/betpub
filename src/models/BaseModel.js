@@ -1,3 +1,3 @@
-export default class BaseModel {
-    id: string;
+export class BaseModel {
+    id;
 }

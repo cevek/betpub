@@ -1,22 +1,22 @@
-let React = require('./comp/Dom');
-let App = require('./comp/App');
-let GamePage = require('./comp/GamePage');
-let MainForm = require('./comp/MainForm');
-var Router = require('react-router');
-var Route = Router.Route;
+import Router from 'react-router';
+let Route = Router.Route;
+
+import {App} from './comp/App';
+import {GamePage} from './comp/GamePage';
+import {MainForm} from './comp/MainForm';
+import {v, React} from './lib/V';
 
 require('./main.css');
 
 
-var routes = (
-    <Route handler={App} path="/">
-        <Route path="/" handler={MainForm}/>
-        <Route path="/game/:id" handler={GamePage}/>
-    </Route>
-);
+let routes =
+    v(Route, {handler: App, path: '/'},
+        v(Route, {path: '/', handler: MainForm}),
+        v(Route, {path: '/game/:id', handler: GamePage})
+    );
 
-var container = document.createElement('div');
+let container = document.createElement('div');
 document.body.appendChild(container);
 Router.run(routes, function (Handler) {
-    React.render(<Handler/>, container);
+    React.render(v(Handler), container);
 });

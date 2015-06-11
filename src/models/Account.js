@@ -1,7 +1,7 @@
-let BaseModel = require('./BaseModel');
-export default class Account extends BaseModel {
-    name: string;
-    email: string;
-    balance: number;
-    history: Array<Contest>;
+import {BaseModel} from './BaseModel';
+export class Account extends BaseModel {
+    name;
+    email;
+    balance;
+    history;
 }

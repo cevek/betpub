@@ -1,4 +1,4 @@
-let BaseModel = require('./BaseModel');
-export default class ContestWinType extends BaseModel {
-    name: string;
+import {BaseModel} from './BaseModel';
+export class ContestWinType extends BaseModel {
+    name;
 }

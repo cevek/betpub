@@ -1,13 +1,13 @@
 class HTTP {
     static request(method, url, data) {
         return new Promise((resolve, reject) => {
-            var req = new XMLHttpRequest();
+            let req = new XMLHttpRequest();
             req.open(method, url, true);
             req.onreadystatechange = function () {
                 if (req.readyState == 4) {
                     if (req.status == 200) {
                         try {
-                            var data = JSON.parse(req.responseText);
+                            let data = JSON.parse(req.responseText);
                             resolve(data);
                         }
                         catch (e) {
@@ -25,7 +25,7 @@ class HTTP {
 
     static requestRaw(method, url, data, responseType) {
         return new Promise((resolve, reject)=> {
-            var req = new XMLHttpRequest();
+            let req = new XMLHttpRequest();
             req.open(method, url, true);
             if (responseType) {
                 req.responseType = responseType;
