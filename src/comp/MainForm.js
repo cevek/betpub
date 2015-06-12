@@ -51,6 +51,7 @@ export class MainForm extends React.Component {
     render() {
         this.filterGames();
         return v('div',
+            v('div', this.props.params.id),
             v(MainFilters, {
                 active: this.state.filterLeague,
                 onChange: (league)=>this.setLeague(league)

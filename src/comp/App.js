@@ -1,9 +1,9 @@
 import '../Data';
 import '../Utils';
-import Router from 'react-router';
-let RouteHandler = Router.RouteHandler;
 import {SideBar} from './SideBar';
+import {MainForm} from './MainForm';
 import {v, React} from './../lib/V';
+import {Router, Route} from './Router';
 
 export class App extends React.Component {
     constructor(props) {
@@ -13,7 +13,10 @@ export class App extends React.Component {
     render() {
         return v('div',
             v(SideBar),
-            v(RouteHandler)
+            v(Router,
+                v(Route, {path: '/', handler: MainForm}),
+                v(Route, {path: '/:id/', handler: MainForm})
+            )
         );
     }
 }
