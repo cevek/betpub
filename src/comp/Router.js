@@ -3,6 +3,7 @@ export class Router extends React.Component {
 	activeComponent;
 	activeProps;
 	routes = [];
+	emptyRoute;
 
 	componentDidMount() {
 		window.addEventListener('hashchange', ()=> {
@@ -16,7 +17,7 @@ export class Router extends React.Component {
 
 	changeRoute() {
 		var url = location.hash.substr(1);
-		this.activeComponent = null;
+		this.activeComponent = this.emptyRoute;
 		for (var i = 0; i < this.routes.length; i++) {
 			var route = this.routes[i];
 			var m;
@@ -36,9 +37,12 @@ export class Router extends React.Component {
 		for (var i = 0; i < children.length; i++) {
 			var handler = children[i].props.handler;
 			var url = children[i].props.path;
+			if (url === '*'){
+				this.emptyRoute = handler;
+				return;
+			}
 			url = '/' + url.replace(/(^\/+|\/+$)/g, '');
 			url = url === '/' ? url : url + '/';
-			var m = url.match(/(:([^\/]+))/g);
 			var v;
 			var reg = /:([^\/]+)/g;
 			var names = [];
@@ -60,5 +64,4 @@ export class Router extends React.Component {
 }
 
 export class Route extends React.Component {
-	name = '232'
 }
