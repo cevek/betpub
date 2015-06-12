@@ -2,36 +2,24 @@ import {leagueStore} from '../models/League';
 import {v, React} from './../lib/V';
 
 export class MainFilters extends React.Component {
-    constructor(props) {
-        super(props);
-    }
-
-    //state = {active: null};
-
     setActive(active) {
         this.props.onChange(active);
-        //this.setState({active: active});
-    }
-
-    isActive(active) {
-        return 'btn ' + (this.props.active === active ? 'active' : '');
     }
 
     render() {
         return v('div',
-            v('div', {
-                    onTouchTap: ()=>this.setActive(null),
-                    class: this.isActive(null)
+            v('div.btn', {
+                    onMouseDown: ()=>this.setActive(null),
+                    classes: {active: this.props.active == null}
                 }, 'All'
             ),
             leagueStore.data.map((league) =>
-                v('div', {
+                v('div.btn', {
                         key: league.id,
-                        onTouchTap: ()=>this.setActive(league),
-                        class: this.isActive(league)
+                        onMouseDown: ()=>this.setActive(league),
+                        classes: {active: this.props.active === league}
                     }, league.name
                 ))
         )
-
     }
 } 

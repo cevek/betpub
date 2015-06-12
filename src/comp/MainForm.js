@@ -4,10 +4,6 @@ import {gameStore} from '../models/Game';
 import {v, React} from './../lib/V';
 
 export class MainForm extends React.Component {
-    constructor(props) {
-        super(props);
-    }
-
     state = {filterDate: null, filterLeague: null};
     days = [];
 

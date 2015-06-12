@@ -3,17 +3,13 @@ import {v, React} from './../lib/V';
 
 
 export class GameItem extends React.Component {
-    constructor(props) {
-        super(props);
-    }
-
     click() {
         location.hash = '/game/' + this.props.game.id;
     }
 
     render() {
         let game = this.props.game;
-        return v('.item', {onTouchTap: ()=>this.click()},
+        return v('.item', {onMouseDown: ()=>this.click()},
             v('div',
                 v('span', formatAMPM(game.date)),
                 game.isLive() ?
@@ -23,7 +19,7 @@ export class GameItem extends React.Component {
                         getOrdinal(game.activePeriod()) + ' period'
                     ) : null
             ),
-            v(game.team1.name + '–' + game.team2.name)
+            v('div', game.team1.name + '–' + game.team2.name)
         );
     }
 } 

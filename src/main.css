@@ -23,6 +23,7 @@ body {
 
 .btn {
     -webkit-user-select: none !important;
+    cursor: default;
     background: #EEE;
     font-size: 20px;
     display: inline-block;
@@ -35,6 +36,10 @@ body {
 .btn.active {
     background: gray;
     color: white;
+}
+
+.game-list .item{
+    cursor: default;
 }
 
 .game-info {

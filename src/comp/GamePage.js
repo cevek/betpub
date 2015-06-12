@@ -4,10 +4,6 @@ import {gameStore} from '../models/Game';
 import {v, React} from './../lib/V';
 
 export class GamePage extends React.Component {
-    constructor(props) {
-        super(props);
-    }
-
     render() {
         let id = this.props.params.id;
         let game = gameStore.getById(id);

@@ -1,10 +1,6 @@
 import {v, React} from './../lib/V';
 
 export class LineUp extends React.Component {
-    constructor(props) {
-        super(props);
-    }
-
     render() {
         return v('table.line-up',
             v('thead',

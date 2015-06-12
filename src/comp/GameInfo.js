@@ -2,10 +2,6 @@ import {formatAMPM, getOrdinal} from '../Utils';
 import {v, React} from './../lib/V';
 
 export class GameInfo extends React.Component {
-    constructor(props) {
-        super(props);
-    }
-
     render() {
         let game = this.props.game;
         return v('.game-info',
