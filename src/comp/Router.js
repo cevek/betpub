@@ -1,4 +1,6 @@
 import {v, React} from '../lib/V.js';
+var scrollData = {};
+var activeUrl;
 export class Router extends React.Component {
     activeComponent;
     activeProps;
@@ -6,13 +8,24 @@ export class Router extends React.Component {
     emptyRoute;
 
     componentDidMount() {
+        window.addEventListener('scroll', ()=> {
+            if (activeUrl === location.href) {
+                scrollData[activeUrl] = window.scrollY;
+            }
+        });
         window.addEventListener('hashchange', ()=> {
+            activeUrl = location.href;
             this.changeRoute();
             this.forceUpdate();
         });
+        activeUrl = location.href;
         this.prepareRoutes(this.props.children);
         this.changeRoute();
         this.forceUpdate();
+    }
+
+    componentDidUpdate() {
+        window.scrollTo(0, scrollData[activeUrl] || 0);
     }
 
     changeRoute() {
