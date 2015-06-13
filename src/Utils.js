@@ -18,22 +18,22 @@ Date.prototype.getDayInt = function () {
     return this.getFullYear() * 10000 + (this.getMonth() + 1) * 100 + this.getDate();
 };
 
-Array.prototype.groupBy = function (groupFn) {
-    let map = new Map();
+Array.prototype.groupBy = function (groupFn, idProp) {
+    let map = {};
     for (let i = 0; i < this.length; i++) {
         let item = this[i];
         let group = groupFn(item);
-        let items = map.get(group);
-        if (!items) {
-            items = [];
-            map.set(group, items);
+        let data = map[group[idProp]];
+        if (!data) {
+            data = {group: group, items: []};
+            map[group[idProp]] = data;
         }
-        items.push(item);
+        data.items.push(item);
     }
 
     let ret = [];
-    map.forEach((value, key)=>{
-        ret.push({group: key, items: value});
-    });
+    for (var key in map){
+        ret.push({group: map[key].group, key: key, items: map[key].items});
+    }
     return ret;
 };
