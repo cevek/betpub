@@ -1,29 +1,48 @@
 import {v, React} from '../lib/V.js';
 var scrollData = {};
 var activeUrl;
+var exclMark = false;
+var html5History = false;
 export function go(url) {
-    location.hash = '!' + url;
+    if (html5History) {
+        history.pushState(null, null, url);
+        for (var i = 0; i < allRouters.length; i++) {
+            var router = allRouters[i];
+            router.changeUrl();
+        }
+    }
+    else {
+        location.hash = (exclMark ? '!' : '') + url;
+    }
     scrollData[location.href] = 0;
 }
+var allRouters = [];
 export class Router extends React.Component {
     activeComponent;
     activeProps;
     routes = [];
     emptyRoute;
 
+    constructor(props) {
+        super(props);
+        allRouters.push(this);
+    }
+
     componentDidMount() {
+        window.addEventListener(html5History ? 'popstate' : 'hashchange', ()=> {
+            this.changeUrl();
+        });
         window.addEventListener('scroll', ()=> {
             if (activeUrl === location.href) {
                 scrollData[activeUrl] = window.scrollY;
             }
         });
-        window.addEventListener('hashchange', ()=> {
-            activeUrl = location.href;
-            this.changeRoute();
-            this.forceUpdate();
-        });
-        activeUrl = location.href;
         this.prepareRoutes(this.props.children);
+        this.changeUrl();
+    }
+
+    changeUrl() {
+        activeUrl = location.href;
         this.changeRoute();
         this.forceUpdate();
     }
@@ -33,10 +52,17 @@ export class Router extends React.Component {
     }
 
     changeRoute() {
-        var url = location.hash.substr(1);
-        if (url[0] == '!') {
-            url = url.substring(1);
+        var url = '';
+        if (html5History) {
+            url = location.pathname;
         }
+        else {
+            url = location.hash.substr(1);
+            if (exclMark && url[0] == '!') {
+                url = url.substring(1);
+            }
+        }
+
         this.activeComponent = this.emptyRoute;
         for (var i = 0; i < this.routes.length; i++) {
             var route = this.routes[i];
