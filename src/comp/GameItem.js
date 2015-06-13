@@ -1,10 +1,11 @@
 import {getOrdinal, formatAMPM} from '../Utils';
 import {v, React} from './../lib/V';
+import {go} from './Router';
 
 
 export class GameItem extends React.Component {
     click() {
-        location.hash = '/game/' + this.props.game.id;
+        go('/game/' + this.props.game.id);
     }
 
     render() {

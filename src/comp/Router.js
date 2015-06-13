@@ -1,6 +1,10 @@
 import {v, React} from '../lib/V.js';
 var scrollData = {};
 var activeUrl;
+export function go(url) {
+    location.hash = '!' + url;
+    scrollData[location.href] = 0;
+}
 export class Router extends React.Component {
     activeComponent;
     activeProps;
@@ -30,6 +34,9 @@ export class Router extends React.Component {
 
     changeRoute() {
         var url = location.hash.substr(1);
+        if (url[0] == '!') {
+            url = url.substring(1);
+        }
         this.activeComponent = this.emptyRoute;
         for (var i = 0; i < this.routes.length; i++) {
             var route = this.routes[i];
