@@ -1,7 +1,7 @@
 import {GameItem} from './GameItem';
-import {v, React} from './../lib/V';
+import {v, Component} from './../lib/V';
 
-export class GameList extends React.Component {
+export class GameList extends Component {
     render() {
         let groupped = this.props.games.groupBy(game => game.eventType, 'id');
         return v('.game-list',

@@ -1,7 +1,7 @@
 import {formatAMPM, getOrdinal} from '../Utils';
-import {v, React} from './../lib/V';
+import {v, Component} from './../lib/V';
 
-export class GameInfo extends React.Component {
+export class GameInfo extends Component {
     render() {
         let game = this.props.game;
         return v('.game-info',

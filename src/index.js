@@ -1,4 +1,4 @@
-import {Router, Route} from './comp/Router.js';
+import {Router, Route} from './lib/Router.js';
 /*
 import Router from 'react-router';
 let Route = Router.Route;
@@ -7,7 +7,7 @@ let Route = Router.Route;
 import {App} from './comp/App';
 import {GamePage} from './comp/GamePage';
 import {MainForm} from './comp/MainForm';
-import {v, React} from './lib/V';
+import {v, Component, render} from './lib/V';
 
 require('./main.css');
 
@@ -23,7 +23,7 @@ let routes =
 let container = document.createElement('div');
 document.body.appendChild(container);
 
-React.render(v(App), container);
+render(v(App), container);
 
 
 

@@ -38,7 +38,7 @@ body {
     color: white;
 }
 
-.game-list .item{
+.game-list .item {
     cursor: default;
 }
 
@@ -82,6 +82,12 @@ body {
 
 .game-info .score .big {
     font-size: 50px;
+}
+
+.my-line-up {
+    width: 50%;
+    display: inline-block;
+    vertical-align: top;
 }
 
 table {

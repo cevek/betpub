@@ -1,9 +1,9 @@
 import {MainFilters} from './MainFilters';
 import {GameList} from './GameList';
 import {gameStore} from '../models/Game';
-import {v, React} from './../lib/V';
+import {v, Component} from './../lib/V';
 
-export class MainForm extends React.Component {
+export class MainForm extends Component {
     state = {filterDate: null, filterLeague: null};
     days = [];
 
@@ -47,7 +47,7 @@ export class MainForm extends React.Component {
     render() {
         this.filterGames();
         return v('div',
-            v('div', this.props.params.id),
+            //v('div', this.props.params.id),
             v(MainFilters, {
                 active: this.state.filterLeague,
                 onChange: (league)=>this.setLeague(league)

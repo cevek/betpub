@@ -1,4 +1,4 @@
-import {v, React} from '../lib/V.js';
+import {v, Component} from './V.js';
 var scrollData = {};
 var activeUrl;
 var exclMark = false;
@@ -17,7 +17,7 @@ export function go(url) {
     scrollData[location.href] = 0;
 }
 var allRouters = [];
-export class Router extends React.Component {
+export class Router extends Component {
     activeComponent;
     activeProps;
     routes = [];
@@ -29,6 +29,7 @@ export class Router extends React.Component {
     }
 
     componentDidMount() {
+        console.log("componentDidMount");
         window.addEventListener(html5History ? 'popstate' : 'hashchange', ()=> {
             this.changeUrl();
         });
@@ -42,6 +43,7 @@ export class Router extends React.Component {
     }
 
     changeUrl() {
+        console.log("changeUrl");
         activeUrl = location.href;
         this.changeRoute();
         this.forceUpdate();
@@ -79,6 +81,7 @@ export class Router extends React.Component {
     }
 
     prepareRoutes(children) {
+        console.log("prepareRoutes", children);
         this.routes = [];
         for (var i = 0; i < children.length; i++) {
             var handler = children[i].props.handler;
@@ -105,9 +108,11 @@ export class Router extends React.Component {
     }
 
     render() {
-        return this.activeComponent ? v(this.activeComponent, {params: this.activeProps}) : null;
+        console.log("Router render", v(this.activeComponent));
+        //return this.activeComponent ? v(this.activeComponent, {params: this.activeProps}) : null;
+        return v('div.router', Math.random(), this.activeComponent ? v(this.activeComponent, {params: this.activeProps}) : null);
     }
 }
 
-export class Route extends React.Component {
+export class Route extends Component {
 }

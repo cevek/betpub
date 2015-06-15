@@ -1,7 +1,7 @@
 import {leagueStore} from '../models/League';
-import {v, React} from './../lib/V';
+import {v, Component} from './../lib/V';
 
-export class MainFilters extends React.Component {
+export class MainFilters extends Component {
     setActive(active) {
         this.props.onChange(active);
     }

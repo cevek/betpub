@@ -1,9 +1,11 @@
 import {getOrdinal, formatAMPM} from '../Utils';
-import {v, React} from './../lib/V';
-import {go} from './Router';
+import {v, Component} from './../lib/V';
+import {go} from './../lib/Router';
 
 
-export class GameItem extends React.Component {
+export class GameItem extends Component {
+    dontConsole = true;
+
     click() {
         go('/game/' + this.props.game.id);
     }

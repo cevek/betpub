@@ -1,6 +1,6 @@
-import {v, React} from './../lib/V';
+import {v, Component} from './../lib/V';
 
-export class LineUp extends React.Component {
+export class LineUp extends Component {
     render() {
         return v('table.line-up',
             v('thead',

@@ -1,7 +1,7 @@
-import {v, React} from './../lib/V';
+import {v, Component} from './../lib/V';
 
-export class SideBar extends React.Component {
+export class SideBar extends Component {
     render() {
-        return v('div');
+        return v('div', 'Sidebar');
     }
 } 

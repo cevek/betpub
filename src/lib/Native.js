@@ -1,5 +1,6 @@
 let isCito = location.hash.indexOf('cito') > -1;
-class Component {
+
+export class Component {
     constructor(props) {
         this.props = props;
         //console.log("constructor", this.constructor.name);
@@ -7,6 +8,10 @@ class Component {
 
     setState(obj) {
         Object.keys(obj).forEach(key => this.state[key] = obj[key]);
+        this.forceUpdate();
+    }
+
+    forceUpdate(){
         console.time('update');
         let node = this.render();
         if (isCito) {
@@ -48,7 +53,7 @@ class VNode {
         this.attrs = null;
     }
 }
-function createElement(tag, props, ...children) {
+export function createElement(tag, props, ...children) {
     let node;
     if (typeof tag === 'string') {
         if (isCito) {
@@ -73,8 +78,11 @@ function createElement(tag, props, ...children) {
                 if (props.className) {
                     node.className = props.className;
                 }
-                if (props.onTouchTap) {
-                    node.onmousedown = props.onTouchTap;
+                if (props.onmousedown) {
+                    node.onmousedown = props.onmousedown;
+                }
+                if (props.onclick) {
+                    node.onclick = props.onclick;
                 }
             }
 
@@ -108,7 +116,7 @@ function createElement(tag, props, ...children) {
     return node;
 }
 
-function render(app, node) {
+export function render(app, node) {
     if (isCito) {
         cito.vdom.append(node, app);
     }
@@ -116,9 +124,3 @@ function render(app, node) {
         node.appendChild(app);
     }
 }
-
-module.exports = {
-    Component: Component,
-    createElement: createElement,
-    render: render
-};
