@@ -1,3 +1,4 @@
+import '../storage';
 import '../Data';
 import '../Utils';
 import {v, Component} from './../lib/V';

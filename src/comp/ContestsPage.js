@@ -7,9 +7,7 @@ import {storage} from '../storage';
 
 
 export class ContestsPage extends Component {
-    selectContest(gameId) {
-        go('/myteam/' + gameId + '/123');
-    }
+
 
     render() {
         let id = this.props.params.gameId;
@@ -18,18 +16,21 @@ export class ContestsPage extends Component {
         return v('div',
             v(GameInfo, {game: game}),
             game.contests.map(contest =>
-                v(ContestItem, {contest: contest})),
-            v('button', {onclick: ()=>this.selectContest(id)}, 'Next')
+                v(ContestItem, {onclick: ()=>selectContest(id, contest.id), contest: contest}))
         );
     }
 }
 
 export class ContestItem extends Component {
+    selectContest() {
+        go('/myteam/' + this.props.contest.game.id + '/' + this.props.contest.id);
+    }
+
     render() {
         var contest = this.props.contest;
         var contestType = contest.type;
-        return v('.contest-item',
-            v('.slot',
+        return v('.contest-item', {onclick: ()=>this.selectContest()},
+            v('.slot.main',
                 v('.title', contestType.name),
                 v('.entries', 'Entries – ', contest.entries ? contest.entries + '/' : '', contestType.maxEntries)
             ),

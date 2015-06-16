@@ -139,12 +139,15 @@ table th, table td {
     width: 100%;
 }
 
+.contest-item .slot.main{
+    width: 100%;
+}
 .contest-item .slot {
     display: table-cell;
     vertical-align: top;
     margin: 0 10px;
     text-align: center;
-    min-width: 70px;
+    min-width: 100px;
 }
 
 .contest-item .slot .title {
@@ -157,7 +160,7 @@ table th, table td {
 }
 
 .contest-item .slot:last-child {
-    text-align: right;
+    /*text-align: right;*/
 }
 
 .contest-item .slot .big {

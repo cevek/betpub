@@ -20,6 +20,7 @@ storage.teams.addAll(json.teams.map(teamJson => new Team(teamJson)));
 storage.leagues.addAll(json.leagues.map(leagueJson => {
     storage.leagueEventTypes.addAll(leagueJson.events.map(eventJson => {
         eventJson.games = eventJson.games.concat(generateGames());
+        eventJson.games.forEach(game => game.contests = generateContests());
         storage.games.addAll(eventJson.games.map(gameJson => {
             storage.contests.addAll(gameJson.contests.map(contestJson => new Contest(contestJson)));
             return new Game(gameJson);
@@ -40,17 +41,16 @@ function generateGames() {
             "date": new Date(2015, 5, i, 17).toISOString(),
             "team1Id": (i * 14) % 6 + 1,
             "team2Id": (i * 11) % 6 + 1,
-            "contests": generateContests()
+            "contests": []
         });
     }
     return games;
 }
 
 function generateContests() {
-    contestK++;
-    let entries = (contestK++ + 7) % 20;
+    let entries = (contestK + 7) % 20;
     return storage.contestTypes.data.map((type, k) => ({
-        id: contestK,
+        id: contestK++,
         typeId: type.id,
         entries: entries,
         myPoints: contestK * (k + 1) % 36,

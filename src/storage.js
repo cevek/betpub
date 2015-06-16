@@ -10,3 +10,4 @@ export let storage = {
     leagues: new BaseStore(),
     leagueEventTypes: new BaseStore()
 };
+window.storage = storage;

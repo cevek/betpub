@@ -8,6 +8,7 @@ export class Contest extends BaseModel {
     myLineUp;
     myPoints;
     myPlace;
+    game;
 
     constructor(json) {
         super();

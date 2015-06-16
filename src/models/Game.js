@@ -39,6 +39,7 @@ export class Game extends BaseModel {
         this.team1 = storage.teams.getById(json.team1Id);
         this.team2 = storage.teams.getById(json.team2Id);
         this.contests = json.contests.map(contestJson => storage.contests.getById(contestJson.id));
+        this.contests.forEach(contest => contest.game = this);
         this.json = json;
     }
 
