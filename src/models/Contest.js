@@ -2,6 +2,7 @@ import {BaseStore} from './BaseStore';
 import {BaseModel} from './BaseModel';
 import {playerStore} from './Player';
 import {contestTypeStore} from './ContestType';
+import {storage} from '../storage';
 export class Contest extends BaseModel {
     type;
     prizes;
@@ -13,7 +14,7 @@ export class Contest extends BaseModel {
     constructor(json) {
         super();
         this.id = json.id;
-        this.type = contestTypeStore.getById(json.typeId);
+        this.type = storage.contestTypes.getById(json.typeId);
         this.prizes = json.prizes;
         this.entries = json.entries;
         this.myLineUp = [];//json.myLineUp.map(playerJsonId => playerStore.getById(playerJsonId));

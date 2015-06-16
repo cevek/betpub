@@ -21,7 +21,7 @@ storage.leagues.addAll(json.leagues.map(leagueJson => {
     storage.leagueEventTypes.addAll(leagueJson.events.map(eventJson => {
         eventJson.games = eventJson.games.concat(generateGames());
         storage.games.addAll(eventJson.games.map(gameJson => {
-            gameJson.contests.map(contestJson => new Contest(contestJson));
+            storage.contests.addAll(gameJson.contests.map(contestJson => new Contest(contestJson)));
             return new Game(gameJson);
         }));
         return new LeagueEventType(eventJson);
