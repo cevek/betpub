@@ -1,6 +1,3 @@
-import {teamStore} from './Team';
-import {contestStore} from './Contest';
-import {contestTypeStore} from './ContestType';
 import {BaseModel} from './BaseModel';
 import {BaseStore} from './BaseStore';
 import {storage} from '../storage';
@@ -55,6 +52,5 @@ export class Game extends BaseModel {
     }
 }
 
-class GameStore extends BaseStore {}
-export let gameStore = new GameStore();
+export class GameStore extends BaseStore {}
 

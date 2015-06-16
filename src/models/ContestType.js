@@ -1,6 +1,5 @@
 import {BaseModel} from './BaseModel';
 import {BaseStore} from './BaseStore';
-import {gameStore} from './Game';
 export class ContestType extends BaseModel {
     name;
     maxEntries;
@@ -15,6 +14,4 @@ export class ContestType extends BaseModel {
     }
 }
 
-class ContestTypeStore extends BaseStore {}
-
-export let contestTypeStore = new ContestTypeStore();
+export class ContestTypeStore extends BaseStore {}

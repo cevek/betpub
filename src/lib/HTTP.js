@@ -14,7 +14,8 @@ class HTTP {
                             console.error(e);
                             reject(req.responseText);
                         }
-                    } else {
+                    }
+                    else {
                         reject(req);
                     }
                 }
@@ -34,7 +35,8 @@ class HTTP {
                 if (req.readyState == 4) {
                     if (req.status == 200) {
                         resolve(req.response);
-                    } else {
+                    }
+                    else {
                         reject(req);
                     }
                 }

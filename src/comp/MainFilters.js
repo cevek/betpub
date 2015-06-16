@@ -1,4 +1,3 @@
-import {leagueStore} from '../models/League';
 import {v, Component} from './../lib/V';
 import {storage} from '../storage';
 

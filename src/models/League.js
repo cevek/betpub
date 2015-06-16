@@ -1,6 +1,5 @@
 import {BaseStore} from './BaseStore';
 import {BaseModel} from './BaseModel';
-import {leagueEventTypeStore} from './LeagueEventType';
 import {storage} from '../storage';
 
 export class League extends BaseModel {
@@ -17,6 +16,4 @@ export class League extends BaseModel {
     }
 
 }
-class LeagueStore extends BaseStore {}
-
-export let leagueStore = new LeagueStore();
+export class LeagueStore extends BaseStore {}

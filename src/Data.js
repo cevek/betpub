@@ -1,11 +1,11 @@
 import {PlayerPosition} from './models/PlayerPosition';
-import {Game, gameStore} from './models/Game';
-import {Team, teamStore} from './models/Team';
-import {Contest, contestStore} from './models/Contest';
-import {Player, playerStore} from './models/Player';
-import {ContestType, contestTypeStore} from './models/ContestType';
-import {League, leagueStore} from './models/League';
-import {LeagueEventType, leagueEventTypeStore} from './models/LeagueEventType';
+import {Game} from './models/Game';
+import {Team} from './models/Team';
+import {Contest} from './models/Contest';
+import {Player} from './models/Player';
+import {ContestType} from './models/ContestType';
+import {League} from './models/League';
+import {LeagueEventType} from './models/LeagueEventType';
 import {storage} from './storage';
 import json from 'json!./mock.json';
 

@@ -11,7 +11,7 @@ export class Component {
         this.forceUpdate();
     }
 
-    forceUpdate(){
+    forceUpdate() {
         console.time('update');
         let node = this.render();
         if (isCito) {

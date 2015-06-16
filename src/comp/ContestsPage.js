@@ -1,9 +1,6 @@
 import {v,Component} from '../lib/V';
 import {GameInfo} from './GameInfo';
 import {LineUp} from './LineUp';
-import {gameStore} from '../models/Game';
-import {contestStore, Contest} from '../models/Contest';
-import {contestTypeStore, ContestType} from '../models/ContestType';
 import {go} from '../lib/Router';
 import {getOrdinal} from '../Utils';
 import {storage} from '../storage';

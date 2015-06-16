@@ -1,6 +1,5 @@
 import {GameInfo} from './GameInfo';
 import {LineUp} from './LineUp';
-import {gameStore} from '../models/Game';
 import {v, Component} from './../lib/V';
 import {go} from './../lib/Router';
 import {storage} from '../storage';

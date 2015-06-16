@@ -1,6 +1,5 @@
 import {BaseStore} from './BaseStore';
 import {BaseModel} from './BaseModel';
-import {gameStore} from './Game';
 import {storage} from '../storage';
 
 
@@ -18,5 +17,4 @@ export class LeagueEventType extends BaseModel {
         this.games.forEach(game => game.eventType = this);
     }
 }
-class LeagueEventTypeStore extends BaseStore {}
-export let leagueEventTypeStore = new LeagueEventTypeStore();
+export class LeagueEventTypeStore extends BaseStore {}

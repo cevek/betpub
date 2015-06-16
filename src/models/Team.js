@@ -1,6 +1,5 @@
 import {BaseStore} from './BaseStore';
 import {BaseModel} from './BaseModel';
-import {playerStore} from './Player';
 import {storage} from '../storage';
 
 export class Team extends BaseModel {
@@ -15,5 +14,4 @@ export class Team extends BaseModel {
     }
 }
 
-class TeamStore extends BaseStore {}
-export let teamStore = new TeamStore();
+export class TeamStore extends BaseStore {}

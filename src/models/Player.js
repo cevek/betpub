@@ -1,6 +1,5 @@
 import {BaseStore} from './BaseStore';
 import {BaseModel} from './BaseModel';
-import {playerPositionStore} from './PlayerPosition';
 import {storage} from '../storage';
 var p = 12;
 export class Player extends BaseModel {
@@ -22,6 +21,4 @@ export class Player extends BaseModel {
         this.position = storage.playerPositions.getById(json.positionId || pos);
     }
 }
-class PlayerStore extends BaseStore {}
-
-export let playerStore = new PlayerStore();
+export class PlayerStore extends BaseStore {}

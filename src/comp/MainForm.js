@@ -1,6 +1,5 @@
 import {MainFilters} from './MainFilters';
 import {GameList} from './GameList';
-import {gameStore} from '../models/Game';
 import {v, Component} from './../lib/V';
 import {storage} from '../storage';
 

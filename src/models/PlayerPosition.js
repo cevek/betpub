@@ -12,6 +12,4 @@ export class PlayerPosition extends BaseModel {
 
 }
 
-class PlayerPositionStore extends BaseStore {}
-
-export let playerPositionStore = new PlayerPositionStore();
+export class PlayerPositionStore extends BaseStore {}

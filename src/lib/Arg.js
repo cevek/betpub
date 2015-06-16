@@ -48,7 +48,7 @@ export function createElement(tag, props, children) {
             else {
                 component = new tag(props);
                 //if (!component.dontConsole) {
-                    //console.log("new", tag.name);
+                //console.log("new", tag.name);
                 //}
                 component.componentWillMount();
             }
