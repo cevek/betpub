@@ -3,8 +3,35 @@
     {
       "id": 1,
       "name": "F"
+    },
+    {
+      "id": 2,
+      "name": "C"
+    },
+    {
+      "id": 3,
+      "name": "G"
+    },
+    {
+      "id": 4,
+      "name": "P"
     }
   ],
+  "contestTypes": [
+    {
+      "id": 1,
+      "name": "50/50 (Top 50% Win)",
+      "maxEntries": 20,
+      "entryFee": 1
+    },
+    {
+      "id": 2,
+      "name": "Top 6 Win 3$",
+      "maxEntries": 20,
+      "entryFee": 5
+    }
+  ],
+
   "teams": [
     {
       "id": 1,
@@ -41,31 +68,37 @@
     {
       "id": 1,
       "points": 2,
+      "position": 1,
       "name": "Marreese Speights"
     },
     {
       "id": 2,
       "points": 4,
+      "position": 1,
       "name": "Andre Iguodala"
     },
     {
       "id": 3,
       "points": 5,
+      "position": 2,
       "name": "Justin Holiday"
     },
     {
       "id": 4,
       "points": 13,
+      "position": 2,
       "name": "Shaun Livingston"
     },
     {
       "id": 5,
       "points": 22,
+      "position": 3,
       "name": "James Harden"
     },
     {
       "id": 6,
       "points": 12,
+      "position": 3,
       "name": "Marreese Speights"
     },
     {

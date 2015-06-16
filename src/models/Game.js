@@ -1,7 +1,9 @@
 import {teamStore} from './Team';
-import {Contest} from './Contest';
+import {contestStore} from './Contest';
+import {contestTypeStore} from './ContestType';
 import {BaseModel} from './BaseModel';
 import {BaseStore} from './BaseStore';
+import {storage} from '../storage';
 
 export class Game extends BaseModel {
     date;
@@ -20,11 +22,11 @@ export class Game extends BaseModel {
         return this.live;
     }
 
-    activePeriod(){
+    activePeriod() {
         return this.period;
     }
 
-    activeMinute(){
+    activeMinute() {
         return this.minute;
     }
 
@@ -37,9 +39,10 @@ export class Game extends BaseModel {
         this.period = json.period;
         this.minute = json.minute;
         this.live = Boolean(json.live);
-        this.team1 = teamStore.getById(json.team1Id);
-        this.team2 = teamStore.getById(json.team2Id);
-        this.contests = json.contests.map(contestId => contestStore.getById(contestId));
+        this.team1 = storage.teams.getById(json.team1Id);
+        this.team2 = storage.teams.getById(json.team2Id);
+        this.contests = json.contests.map(contestJson => storage.contests.getById(contestJson.id));
+        this.json = json;
     }
 
     isDay(day, isLive) {
@@ -52,8 +55,6 @@ export class Game extends BaseModel {
     }
 }
 
-export class GameStore extends BaseStore {
-
-}
+class GameStore extends BaseStore {}
 export let gameStore = new GameStore();
 

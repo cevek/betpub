@@ -1,6 +1,8 @@
 import {BaseStore} from './BaseStore';
 import {BaseModel} from './BaseModel';
 import {leagueEventTypeStore} from './LeagueEventType';
+import {storage} from '../storage';
+
 export class League extends BaseModel {
     name;
     events = [];
@@ -10,12 +12,11 @@ export class League extends BaseModel {
         super();
         this.id = json.id;
         this.name = json.name;
-        this.events = json.events.map(eventJson => leagueEventTypeStore.getById(eventJson.id));
+        this.events = json.events.map(eventJson => storage.leagueEventTypes.getById(eventJson.id));
+        this.events.forEach(event => event.league = this);
     }
 
 }
-export class LeagueStore extends BaseStore {
-
-}
+class LeagueStore extends BaseStore {}
 
 export let leagueStore = new LeagueStore();

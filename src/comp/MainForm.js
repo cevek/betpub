@@ -2,6 +2,8 @@ import {MainFilters} from './MainFilters';
 import {GameList} from './GameList';
 import {gameStore} from '../models/Game';
 import {v, Component} from './../lib/V';
+import {storage} from '../storage';
+
 
 export class MainForm extends Component {
     state = {filterDate: null, filterLeague: null};
@@ -25,7 +27,7 @@ export class MainForm extends Component {
     filterGames() {
         this.dayGames = {};
         this.liveGames = [];
-        gameStore.data.forEach(game => {
+        storage.games.data.forEach(game => {
             if (this.state.filterLeague && game.eventType.league !== this.state.filterLeague) {
                 return;
             }

@@ -1,5 +1,6 @@
 import {leagueStore} from '../models/League';
 import {v, Component} from './../lib/V';
+import {storage} from '../storage';
 
 export class MainFilters extends Component {
     setActive(active) {
@@ -13,7 +14,7 @@ export class MainFilters extends Component {
                     classes: {active: this.props.active == null}
                 }, 'All'
             ),
-            leagueStore.data.map((league) =>
+            storage.leagues.data.map((league) =>
                 v('div.btn', {
                         key: league.id,
                         onMouseDown: ()=>this.setActive(league),

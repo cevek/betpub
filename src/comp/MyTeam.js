@@ -3,6 +3,8 @@ import {LineUp} from './LineUp';
 import {gameStore} from '../models/Game';
 import {v, Component} from './../lib/V';
 import {go} from './../lib/Router';
+import {storage} from '../storage';
+
 
 export class MyTeam extends Component {
     players = [];
@@ -15,6 +17,7 @@ export class MyTeam extends Component {
     remove(player) {
         var pos = this.players.indexOf(player);
         this.players.splice(pos, 1);
+
         this.forceUpdate();
     }
 
@@ -25,7 +28,7 @@ export class MyTeam extends Component {
 
     render() {
         let id = this.props.params.id;
-        let game = gameStore.getById(id);
+        let game = storage.games.getById(id);
         return v('div',
             v(GameInfo, {game: game}),
             v(LineUpEditable, {players: this.getPlayers(game), onAdd: (player)=>this.add(player)}),

@@ -3,6 +3,8 @@ import {LineUp} from './LineUp';
 import {gameStore} from '../models/Game';
 import {v, Component} from './../lib/V';
 import {go} from './../lib/Router';
+import {storage} from '../storage';
+
 
 export class GamePage extends Component {
     enterGame(gameId) {
@@ -11,7 +13,7 @@ export class GamePage extends Component {
 
     render() {
         let id = this.props.params.id;
-        let game = gameStore.getById(id);
+        let game = storage.games.getById(id);
         return v('.game-page',
             v(GameInfo, {game: game}),
 
