@@ -52,11 +52,41 @@ export class LineUpEditable extends Component {
                 v('tbody',
                     this.props.players.map(player =>
                         v('tr',
-                            v('td', player.position.name),
-                            v('td', player.name),
+                            v('td', player ? player.position.name : ''),
+                            v('td', player ? player.name : ''),
                             v('td', 'TEAM' || player.team.name),
-                            v('td', player.FPPG),
-                            v('td', player.salary),
+                            v('td', player ? player.FPPG : ''),
+                            v('td', player ? player.salary : ''),
+                            this.props.onAdd && v('td', v('button', {onclick: ()=>this.props.onAdd(player)}, '+')),
+                            this.props.onRemove && v('td', v('button', {onclick: ()=>this.props.onRemove(player)}, 'x'))
+                        ))
+                )
+            )
+        );
+    }
+}
+
+
+export class MyLineUp extends Component {
+    render() {
+        return v('div.my-line-up',
+            v('table.line-up',
+                v('thead',
+                    v('th', 'Pos'),
+                    v('th', 'Player'),
+                    v('th', 'Team'),
+                    v('th', 'FPPG'),
+                    v('th', 'Salary'),
+                    v('th', '')
+                ),
+                v('tbody',
+                    this.props.players.map(player =>
+                        v('tr',
+                            v('td', player ? player.position.name : ''),
+                            v('td', player ? player.name : ''),
+                            v('td', 'TEAM' || player.team.name),
+                            v('td', player ? player.FPPG : ''),
+                            v('td', player ? player.salary : ''),
                             this.props.onAdd && v('td', v('button', {onclick: ()=>this.props.onAdd(player)}, '+')),
                             this.props.onRemove && v('td', v('button', {onclick: ()=>this.props.onRemove(player)}, 'x'))
                         ))

@@ -131,6 +131,7 @@
     {
       "id": 1,
       "name": "NBA",
+      "positions": [1,1,1,2,2,3],
       "events": [
         {
           "id": 1,
@@ -194,6 +195,8 @@
     {
       "id": 2,
       "name": "NHL",
+      "positions": [1,2,3,4,4],
+
       "events": [
         {
           "id": 2,
