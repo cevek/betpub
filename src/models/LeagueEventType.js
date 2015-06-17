@@ -6,7 +6,6 @@ import {storage} from '../storage';
 export class LeagueEventType extends BaseModel {
     name;
     games;
-    salary;
     league;
 
     constructor(json) {

@@ -5,7 +5,7 @@ export function getOrdinal(n) {
 }
 
 export function formatPrice(price) {
-    return '$' + (price + '').replace(/(\d)(?=(\d{3})+$)/g, '$1,');
+    return '$' + ((price | 0) + '').replace(/(\d)(?=(\d{3})+$)/g, '$1,');
 }
 
 export function formatAMPM(date) {

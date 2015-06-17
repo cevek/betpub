@@ -54,14 +54,43 @@ main-form {
 
 my-team {
 }
-my-team > radio-buttons{
-    margin: 10px 0;
+
+my-team .info{height: 80px;}
+my-team  radio-buttons {
+    margin: 5px 0;
 }
-my-team > radio-buttons > button{
+
+my-team radio-buttons > button {
     font-size: 20px;
     width: 50px;
 }
 
+my-team > .col {
+    width: calc(50% - 5px);
+    display: inline-block;
+    vertical-align: top;
+}
+
+my-team > .col:last-child {
+    margin-left: 10px;
+}
+
+my-team h3 {
+    margin: 0;
+}
+
+my-team .left {
+    float: left;
+}
+
+my-team .right {
+    float: right;
+    text-align: right;
+}
+
+my-team .salary {
+    font-size: 25px;
+}
 
 side-bar {
 }
@@ -186,13 +215,6 @@ contest-item .slot .big {
 }
 
 full-line-up {
-    width: calc(50% - 5px);
-    display: inline-block;
-    vertical-align: top;
-}
-
-full-line-up:last-child {
-    margin-left: 10px;
 }
 
 full-line-up th {

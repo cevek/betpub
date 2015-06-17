@@ -104,10 +104,13 @@ export class Component {
         this.props = props;
     }
 
-    root(...children){
+    root(...args) {
+        var props;
+        if (args[0] && typeof args[0] === 'object' && !args[0]._context && !args[0].vnode && !(args[0] instanceof Array)) {
+            props = args.shift();
+        }
         var name = this.constructor.name.replace(/([A-Z]+)/g, '-$1').replace(/^-/, '').toLowerCase();
-        children.unshift(name);
-        return v.apply(null, children);
+        return v(name, props, args);
     }
 
 
