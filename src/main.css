@@ -10,16 +10,20 @@ body {
     box-sizing: border-box;
 }
 
-.header {
-    background: gray;
-    color: white;
-    padding: 2px 5px;
+table {
+    width: 100%;
+    border: 1px solid;
+    border-collapse: collapse
 }
 
-.item {
-    padding: 5px;
-    border: 1px solid silver;
-    margin: -1px 0 0 0;
+table th {
+    background: silver;
+}
+
+table th, table td {
+    text-align: left;
+    border: 1px solid;
+    padding: 4px 7px;
 }
 
 .btn {
@@ -39,41 +43,73 @@ body {
     color: white;
 }
 
-.game-list .item {
+contests-page {
+}
+
+main-filters {
+}
+
+main-form {
+}
+
+my-team {
+}
+
+side-bar {
+}
+
+game-list {
+}
+
+game-list .item {
     cursor: default;
 }
 
-.game-info {
+game-list .header {
+    background: gray;
+    color: white;
+    padding: 2px 5px;
 }
 
-.game-info .top {
+game-item {
+    display: block;
+    padding: 5px;
+    border: 1px solid silver;
+    margin: -1px 0 0 0;
+}
+
+game-info {
+
+}
+
+game-info .top {
     overflow: hidden;
     margin: 0 0 30px 0;
 }
 
-.game-info .game-name {
+game-info .game-name {
     float: right;
 }
 
-.game-info .date {
+game-info .date {
     float: left;
 }
 
-.game-info .date .mode {
+game-info .date .mode {
     font-size: 18px;
 }
 
-.game-info .team {
+game-info .team {
     display: inline-block;
     width: 50%;
     font-weight: bold;
 }
 
-.game-info .team2 {
+game-info .team2 {
     text-align: right;
 }
 
-.game-info .score {
+game-info .score {
     display: inline-block;
     width: 200px;
     margin: 0 -100px;
@@ -81,57 +117,30 @@ body {
     vertical-align: middle;
 }
 
-.game-info .score .big {
+game-info .score .big {
     font-size: 50px;
 }
 
-.my-line-up {
-    width: calc(50% - 5px);
-    display: inline-block;
-    vertical-align: top;
-}
-
-.my-line-up:last-child {
-    margin-left: 10px;
-}
-
-table {
-    width: 100%;
-    border: 1px solid;
-    border-collapse: collapse
-}
-
-table th {
-    background: silver;
-}
-
-table th, table td {
-    text-align: left;
-    border: 1px solid;
-    padding: 4px 7px;
-}
-
-.line-up .player-name {
+line-up .player-name {
     width: 80%;
 }
 
-.line-up .right {
+line-up .right {
     text-align: right;
 }
 
-.game-page {
-
+game-page {
 }
 
-.game-page .enter {
+game-page .enter {
     text-align: center;
 }
 
-.game-page .enter button {
+game-page .enter button {
     font-size: 18px;
 }
 
-.contest-item {
+contest-item {
     border: 1px solid silver;
     padding: 5px 10px;
     margin: 10px 0;
@@ -139,10 +148,11 @@ table th, table td {
     width: 100%;
 }
 
-.contest-item .slot.main{
+contest-item .slot.main {
     width: 100%;
 }
-.contest-item .slot {
+
+contest-item .slot {
     display: table-cell;
     vertical-align: top;
     margin: 0 10px;
@@ -150,19 +160,36 @@ table th, table td {
     min-width: 100px;
 }
 
-.contest-item .slot .title {
+contest-item .slot .title {
     font-size: 23px;
     margin: 10px 0 0 0;
 }
 
-.contest-item .slot:first-child {
+contest-item .slot:first-child {
     text-align: left;
 }
 
-.contest-item .slot:last-child {
-    /*text-align: right;*/
+contest-item .slot:last-child {
+
 }
 
-.contest-item .slot .big {
+contest-item .slot .big {
     font-size: 35px;
+}
+
+full-line-up {
+    width: calc(50% - 5px);
+    display: inline-block;
+    vertical-align: top;
+}
+
+full-line-up:last-child {
+    margin-left: 10px;
+}
+
+full-line-up th {
+    width: 10%;
+}
+full-line-up th.team, full-line-up th.player{
+    width: 30%;
 }

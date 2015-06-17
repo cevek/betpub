@@ -13,7 +13,7 @@ export class GamePage extends Component {
     render() {
         let id = this.props.params.id;
         let game = storage.games.getById(id);
-        return v('.game-page',
+        return this.root(
             v(GameInfo, {game: game}),
 
             v('.enter', {onclick: ()=>this.enterGame(id)},

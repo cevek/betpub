@@ -4,7 +4,7 @@ import {v, Component} from './../lib/V';
 export class GameInfo extends Component {
     render() {
         let game = this.props.game;
-        return v('.game-info',
+        return this.root(
             v('.top',
                 v('.game-name', game.eventType.league.name + ' – ' + game.eventType.name),
                 v('.date',

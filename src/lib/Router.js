@@ -109,8 +109,7 @@ export class Router extends Component {
 
     render() {
         console.log("Router render", v(this.activeComponent));
-        //return this.activeComponent ? v(this.activeComponent, {params: this.activeProps}) : null;
-        return v('div.router', Math.random(), this.activeComponent ? v(this.activeComponent, {params: this.activeProps}) : null);
+        return this.root(this.activeComponent ? v(this.activeComponent, {params: this.activeProps}) : null);
     }
 }
 

@@ -13,7 +13,7 @@ export class ContestsPage extends Component {
         let id = this.props.params.gameId;
         let game = storage.games.getById(id);
 
-        return v('div',
+        return this.root(
             v(GameInfo, {game: game}),
             game.contests.map(contest =>
                 v(ContestItem, {onclick: ()=>selectContest(id, contest.id), contest: contest}))
@@ -29,7 +29,7 @@ export class ContestItem extends Component {
     render() {
         var contest = this.props.contest;
         var contestType = contest.type;
-        return v('.contest-item', {onclick: ()=>this.selectContest()},
+        return this.root({onclick: ()=>this.selectContest()},
             v('.slot.main',
                 v('.title', contestType.name),
                 v('.entries', 'Entries – ', contest.entries ? contest.entries + '/' : '', contestType.maxEntries)

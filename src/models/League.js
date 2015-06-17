@@ -11,6 +11,7 @@ export class League extends BaseModel {
         super();
         this.id = json.id;
         this.name = json.name;
+        this.positions = json.positions.map(positionId => storage.playerPositions.getById(positionId));
         this.events = json.events.map(eventJson => storage.leagueEventTypes.getById(eventJson.id));
         this.events.forEach(event => event.league = this);
     }

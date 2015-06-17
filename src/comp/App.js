@@ -25,7 +25,7 @@ export class App extends Component {
     }
 
     render() {
-        return v('div',
+        return this.root(
             v(SideBar),
             //v('button', {onclick: ()=>this.toggle()}, 'toogle'),
             //this.visible && v(MainForm)

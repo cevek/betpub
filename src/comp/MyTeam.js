@@ -6,93 +6,88 @@ import {storage} from '../storage';
 
 
 export class MyTeam extends Component {
-    players = [];
+    game;
+    positions = null;
+    playersUsed = {};
 
     add(player) {
-        this.players.push(player);
-        this.forceUpdate();
+        for (var i = 0; i < this.positions.length; i++) {
+            var pos = this.positions[i];
+            if (player.position === pos.position && !pos.player) {
+                pos.player = player;
+                this.playersUsed[player.id] = i;
+                this.forceUpdate();
+                return;
+            }
+        }
     }
 
     remove(player) {
-        var pos = this.players.indexOf(player);
-        this.players.splice(pos, 1);
-
+        this.positions[this.playersUsed[player.id]].player = null;
+        this.playersUsed[player.id] = null;
         this.forceUpdate();
     }
 
-    getPlayers(game) {
-        return game.team1.players.filter(player => this.players.indexOf(player) === -1);
+    getPlayers() {
+        return this.game.team1.players;
     }
 
+    prepareLineUp() {
+        if (!this.positions) {
+            this.positions = this.game.eventType.league.positions.map(pos => ({player: null, position: pos}));
+        }
+    }
 
     render() {
         let id = this.props.params.id;
-        let game = storage.games.getById(id);
-        return v('div',
-            v(GameInfo, {game: game}),
-            v(LineUpEditable, {players: this.getPlayers(game), onAdd: (player)=>this.add(player)}),
-            v(LineUpEditable, {players: this.players, onRemove: (player)=>this.remove(player)})
-        );
-    }
-}
+        this.game = storage.games.getById(id);
+        this.prepareLineUp();
 
+        return this.root(
+            v(GameInfo, {game: this.game}),
+            v(FullLineUp,
+                this.getPlayers().map(player =>
+                    v('tr',
+                        v('td', player.position.name),
+                        v('td', player.name),
+                        v('td', player.team.name),
+                        v('td', player.FPPG),
+                        v('td', player.salary),
+                        this.playersUsed[player.id] == null
+                            ? v('td', v('button', {onclick: ()=>this.add(player)}, '+'))
+                            : v('td', v('button', {onclick: ()=>this.remove(player)}, 'x'))
+                    ))
+            ),
 
-export class LineUpEditable extends Component {
-    render() {
-        return v('div.my-line-up',
-            v('table.line-up',
-                v('thead',
-                    v('th', 'Pos'),
-                    v('th', 'Player'),
-                    v('th', 'Team'),
-                    v('th', 'FPPG'),
-                    v('th', 'Salary'),
-                    v('th', '')
-                ),
-                v('tbody',
-                    this.props.players.map(player =>
-                        v('tr',
-                            v('td', player ? player.position.name : ''),
-                            v('td', player ? player.name : ''),
-                            v('td', 'TEAM' || player.team.name),
-                            v('td', player ? player.FPPG : ''),
-                            v('td', player ? player.salary : ''),
-                            this.props.onAdd && v('td', v('button', {onclick: ()=>this.props.onAdd(player)}, '+')),
-                            this.props.onRemove && v('td', v('button', {onclick: ()=>this.props.onRemove(player)}, 'x'))
-                        ))
-                )
+            v(FullLineUp,
+                this.positions.map(({player, position}) =>
+                    v('tr',
+                        v('td', position.name),
+                        v('td', player ? player.name : ''),
+                        v('td', player ? player.team.name : ''),
+                        v('td', player ? player.FPPG : ''),
+                        v('td', player ? player.salary : ''),
+                        v('td', player && v('button', {onclick: ()=>this.remove(player)}, 'x'))
+                    ))
             )
         );
     }
 }
 
-
-export class MyLineUp extends Component {
+class FullLineUp extends Component {
     render() {
-        return v('div.my-line-up',
-            v('table.line-up',
+        return this.root(
+            v('table',
                 v('thead',
-                    v('th', 'Pos'),
-                    v('th', 'Player'),
-                    v('th', 'Team'),
-                    v('th', 'FPPG'),
-                    v('th', 'Salary'),
-                    v('th', '')
+                    v('th.pos', 'Pos'),
+                    v('th.player', 'Player'),
+                    v('th.team', 'Team'),
+                    v('th.fppg', 'FPPG'),
+                    v('th.salary', 'Salary'),
+                    v('th.edit', '')
                 ),
-                v('tbody',
-                    this.props.players.map(player =>
-                        v('tr',
-                            v('td', player ? player.position.name : ''),
-                            v('td', player ? player.name : ''),
-                            v('td', 'TEAM' || player.team.name),
-                            v('td', player ? player.FPPG : ''),
-                            v('td', player ? player.salary : ''),
-                            this.props.onAdd && v('td', v('button', {onclick: ()=>this.props.onAdd(player)}, '+')),
-                            this.props.onRemove && v('td', v('button', {onclick: ()=>this.props.onRemove(player)}, 'x'))
-                        ))
-                )
+                v('tbody', this.props.children)
             )
         );
     }
 }
-

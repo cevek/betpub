@@ -7,16 +7,16 @@ export class MainFilters extends Component {
     }
 
     render() {
-        return v('div',
+        return this.root(
             v('div.btn', {
-                    onMouseDown: ()=>this.setActive(null),
+                    onclick: ()=>this.setActive(null),
                     classes: {active: this.props.active == null}
                 }, 'All'
             ),
             storage.leagues.data.map((league) =>
                 v('div.btn', {
                         key: league.id,
-                        onMouseDown: ()=>this.setActive(league),
+                        onclick: ()=>this.setActive(league),
                         classes: {active: this.props.active === league}
                     }, league.name
                 ))

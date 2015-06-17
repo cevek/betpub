@@ -47,7 +47,7 @@ export class MainForm extends Component {
 
     render() {
         this.filterGames();
-        return v('div',
+        return this.root(
             //v('div', this.props.params.id),
             v(MainFilters, {
                 active: this.state.filterLeague,

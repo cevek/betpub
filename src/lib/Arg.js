@@ -40,10 +40,10 @@ export function createElement(tag, props, children) {
             let component;
             if (oldChild && oldChild.component && oldChild.component.constructor === tag) {
                 component = oldChild.component;
-                if (!isEqual(props, component.props)) {
+                if (component.componentWillReceiveProps && !isEqual(props, component.props)) {
                     component.componentWillReceiveProps(props);
-                    component.props = props;
                 }
+                component.props = props;
             }
             else {
                 component = new tag(props);
@@ -59,6 +59,7 @@ export function createElement(tag, props, children) {
                 node.children = '';
             }
             else {
+
             }
             component.node = node;
             node.component = component;
@@ -74,7 +75,6 @@ export function createElement(tag, props, children) {
                 component.componentWillUnmount();
             });
             return node;
-
         };
         nodeFn.props = props;
         return nodeFn;
@@ -104,6 +104,13 @@ export class Component {
         this.props = props;
     }
 
+    root(...children){
+        var name = this.constructor.name.replace(/([A-Z]+)/g, '-$1').replace(/^-/, '').toLowerCase();
+        children.unshift(name);
+        return v.apply(null, children);
+    }
+
+
     componentDidMount() {
     }
 
@@ -111,9 +118,6 @@ export class Component {
     }
 
     componentWillUnmount() {
-    }
-
-    componentWillReceiveProps(newProps) {
     }
 
     componentWillUpdate() {
@@ -414,4 +418,3 @@ function Attrs(p) {
         }
     }
 }
-

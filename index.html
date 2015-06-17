@@ -13,43 +13,64 @@
 <script>
 
     var counter = 0;
+
     function render(Component) {
         return function (oldChild) {
-            if (oldChild) {
+            console.log("oldChild", Component.name, oldChild);
+            if (oldChild && oldChild.cmp) {
                 cmp = oldChild.cmp;
             }
             else {
                 var cmp = new Component();
             }
-            var node = {tag: 'div', key: Component.name, cmp: cmp, children: cmp.render()};
+            var node = cmp.render();
+            node.cmp = cmp;
             cmp.node = node;
+            console.log(Component.name + " newNode", node);
+            node.key = Component.name;
             return node;
-        };
+        }
     }
 
 
-    function prepareChildren(context, children) {
-        return children.map(function (child) {
-            if (typeof child === 'function') {
-                return render(child);
-            }
-            return child;
-        });
+    function v(cmp) {
+        return {tag: 'div', key: cmp.name + '_root', children: render(cmp)};
     }
 
     function updateComp() {
-        var newNode = render(this.constructor);
-        cito.vdom.update(this.node, newNode);
+        var oldNode = this.node;
+        cito.vdom.update(oldNode, render(this.constructor));
+        console.log("updateComp", this.constructor.name, this.node);
     }
 
 
     function App() {
         console.log("App constructor");
     }
+    App.prototype.counter = 0;
     App.prototype.render = function () {
         console.log("App render");
-        return {tag: 'div', children: prepareChildren(this, ['App', Game, Math.random() + ''])}
+        var that = this;
+        return {
+            tag: 'div', children: [
+                'App',
+                this.counter + '',
+                {
+                    tag: 'button',
+                    children: 'click',
+                    events: {
+                        click: function () {
+                            that.counter++;
+                            that.update();
+                        }
+                    }
+                },
+                v(Game),
+                {tag: 'span', children: Math.random() + ''}
+            ]
+        }
     };
+    App.prototype.update = updateComp;
 
     function Game() {
         this.counter = 0;
@@ -60,7 +81,8 @@
         var that = this;
         return {
             tag: 'div',
-            children: prepareChildren(this, [
+            attrs: {title: "hello"},
+            children: [
                 'Game' + that.counter, {
                     tag: 'button', children: 'click', events: {
                         click: function () {
@@ -69,8 +91,8 @@
                         }
                     }
                 },
-                Player
-            ])
+                v(Player)
+            ]
         }
     };
     Game.prototype.update = updateComp;
@@ -78,20 +100,33 @@
     function Player() {
         console.log("Player constructor");
     }
+    Player.prototype.counter = 0;
     Player.prototype.render = function () {
         console.log("Player render");
-        return {tag: 'div', children: ['Player']}
+        return this.counter++ % 2 ? v(PlayerInside) : {tag: '#', children: ''};
+//        return {tag: 'div', children: ['Player']}
     };
 
-    var dom = new App().render();
-//    cito.vdom.append(document.body, dom);
-
-    function update() {
-        var newNode = new App().render();
-        cito.vdom.update(dom, newNode);
-        dom = newNode;
+    function PlayerInside() {
+        console.log("PlayerInside constructor");
     }
+    PlayerInside.prototype.render = function () {
+        console.log("PlayerInside render");
+        return v(PlayerInsideInside);
+//        return {tag: 'div', children: ['PlayerInside']}
+    };
+
+    function PlayerInsideInside() {
+        console.log("PlayerInsideInside constructor");
+    }
+    PlayerInsideInside.prototype.render = function () {
+        console.log("PlayerInsideInside render");
+        return {tag: 'div', children: [{tag: '#', children: ['PlayerInsideInside']}]};
+    };
+
+//    var node = cito.vdom.append(document.body, v(App));
+//    node.children.cmp.node = node.children;
+//    console.log(node.children.cmp);
 </script>
-<!--<button onclick="update()"></button>-->
 </body>
 </html>

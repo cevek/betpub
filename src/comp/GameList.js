@@ -4,7 +4,7 @@ import {v, Component} from './../lib/V';
 export class GameList extends Component {
     render() {
         let groupped = this.props.games.groupBy(game => game.eventType, 'id');
-        return v('.game-list',
+        return this.root(
             groupped.map(({group, items}) =>
                 v('.group',
                     v('.header', group.league.name + ' – ' + group.name),

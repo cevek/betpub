@@ -12,7 +12,7 @@ export class GameItem extends Component {
 
     render() {
         let game = this.props.game;
-        return v('.item', {onMouseDown: ()=>this.click()},
+        return this.root({onclick: ()=>this.click()},
             v('div',
                 v('span', formatAMPM(game.date)),
                 game.isLive() ?
