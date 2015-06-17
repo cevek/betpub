@@ -122,11 +122,11 @@ export class MyTeam extends Component {
                 v('.info',
                     v('h3', 'Your LineUp'),
                     v('.left',
-                        v('.salary', formatPrice(this.salaryRemaining)),
+                        v('.salary-title', formatPrice(this.salaryRemaining)),
                         v('div', 'salary remaining')
                     ),
                     v('.right',
-                        v('.salary', formatPrice(this.calcAverage())),
+                        v('.salary-title', formatPrice(this.calcAverage())),
                         v('div', 'Avg Rem./Player')
                     )
                 ),
