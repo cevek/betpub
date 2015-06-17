@@ -54,6 +54,14 @@ main-form {
 
 my-team {
 }
+my-team > radio-buttons{
+    margin: 10px 0;
+}
+my-team > radio-buttons > button{
+    font-size: 20px;
+    width: 50px;
+}
+
 
 side-bar {
 }
@@ -190,6 +198,22 @@ full-line-up:last-child {
 full-line-up th {
     width: 10%;
 }
-full-line-up th.team, full-line-up th.player{
+
+full-line-up th.team, full-line-up th.player {
     width: 30%;
+}
+
+radio-buttons {
+    display: block;
+}
+
+radio-buttons button {
+    background: #EEE;
+    border: 1px solid gray;
+    margin: 0 -1px 0 0;
+}
+
+radio-buttons .active {
+    background: gray;
+    color: white;
 }

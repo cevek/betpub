@@ -1,8 +1,10 @@
 import {GameInfo} from './GameInfo';
 import {LineUp} from './LineUp';
+import {RadioButtons} from './controls/RadioButtons';
 import {v, Component} from './../lib/V';
 import {go} from './../lib/Router';
 import {storage} from '../storage';
+import {formatPrice} from '../Utils';
 
 
 export class MyTeam extends Component {
@@ -34,18 +36,30 @@ export class MyTeam extends Component {
     }
 
     getPlayers() {
-        return this.game.team1.players;
+        return this.game.team1.players.filter(player => player.position === this.activePos || !this.activePos);
     }
+
+    availablePositions = [];
 
     prepareLineUp() {
         if (!this.slots) {
             this.slots = [];
             this.game.eventType.league.positions.forEach(pos => {
-                this.emptySlots[pos.id] = this.emptySlots[pos.id] || 0;
+                if (!this.emptySlots[pos.id]) {
+                    this.emptySlots[pos.id] = 0;
+                    this.availablePositions.push(pos);
+                }
                 this.emptySlots[pos.id]++;
                 this.slots.push({player: null, position: pos});
             });
         }
+    }
+
+    activePos = null;
+
+    changeFilter(pos) {
+        this.activePos = pos;
+        this.forceUpdate();
     }
 
     render() {
@@ -55,6 +69,13 @@ export class MyTeam extends Component {
 
         return this.root(
             v(GameInfo, {game: this.game}),
+            v(RadioButtons, {
+                active: this.activePos,
+                items: this.availablePositions,
+                label: pos => pos.name,
+                empty: 'All',
+                onChange: pos=>this.changeFilter(pos)
+            }),
             v(FullLineUp,
                 this.getPlayers().map(player =>
                     v('tr',
@@ -62,7 +83,7 @@ export class MyTeam extends Component {
                         v('td', player.name),
                         v('td', player.team.name),
                         v('td', player.FPPG),
-                        v('td', player.salary),
+                        v('td', formatPrice(player.salary)),
                         v('td', this.playersUsed[player.id] == null
                                 ? this.emptySlots[player.position.id] > 0 && v('button', {onclick: ()=>this.add(player)}, '+')
                                 : v('button', {onclick: ()=>this.remove(player)}, 'x')
@@ -77,7 +98,7 @@ export class MyTeam extends Component {
                         v('td', player ? player.name : ''),
                         v('td', player ? player.team.name : ''),
                         v('td', player ? player.FPPG : ''),
-                        v('td', player ? player.salary : ''),
+                        v('td', player ? formatPrice(player.salary) : ''),
                         v('td', player && v('button', {onclick: ()=>this.remove(player)}, 'x'))
                     ))
             )

@@ -4,6 +4,10 @@ export function getOrdinal(n) {
     return n + (s[(v - 20) % 10] || s[v] || s[0]);
 }
 
+export function formatPrice(price) {
+    return '$' + (price + '').replace(/(\d)(?=(\d{3})+$)/g, '$1,');
+}
+
 export function formatAMPM(date) {
     let hours = date.getHours();
     let minutes = date.getMinutes();
