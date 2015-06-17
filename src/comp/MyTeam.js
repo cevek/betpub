@@ -7,15 +7,18 @@ import {storage} from '../storage';
 
 export class MyTeam extends Component {
     game;
-    positions = null;
+    slots = null;
     playersUsed = {};
+    emptySlots = {};
 
     add(player) {
-        for (var i = 0; i < this.positions.length; i++) {
-            var pos = this.positions[i];
-            if (player.position === pos.position && !pos.player) {
-                pos.player = player;
+        for (var i = 0; i < this.slots.length; i++) {
+            let slot = this.slots[i];
+            if (player.position === slot.position && !slot.player) {
+                slot.player = player;
                 this.playersUsed[player.id] = i;
+                this.emptySlots[slot.position.id]--;
+                console.log(this);
                 this.forceUpdate();
                 return;
             }
@@ -23,8 +26,10 @@ export class MyTeam extends Component {
     }
 
     remove(player) {
-        this.positions[this.playersUsed[player.id]].player = null;
+        var slot = this.slots[this.playersUsed[player.id]];
+        slot.player = null;
         this.playersUsed[player.id] = null;
+        this.emptySlots[slot.position.id]++;
         this.forceUpdate();
     }
 
@@ -33,8 +38,13 @@ export class MyTeam extends Component {
     }
 
     prepareLineUp() {
-        if (!this.positions) {
-            this.positions = this.game.eventType.league.positions.map(pos => ({player: null, position: pos}));
+        if (!this.slots) {
+            this.slots = [];
+            this.game.eventType.league.positions.forEach(pos => {
+                this.emptySlots[pos.id] = this.emptySlots[pos.id] || 0;
+                this.emptySlots[pos.id]++;
+                this.slots.push({player: null, position: pos});
+            });
         }
     }
 
@@ -53,14 +63,15 @@ export class MyTeam extends Component {
                         v('td', player.team.name),
                         v('td', player.FPPG),
                         v('td', player.salary),
-                        this.playersUsed[player.id] == null
-                            ? v('td', v('button', {onclick: ()=>this.add(player)}, '+'))
-                            : v('td', v('button', {onclick: ()=>this.remove(player)}, 'x'))
+                        v('td', this.playersUsed[player.id] == null
+                                ? this.emptySlots[player.position.id] > 0 && v('button', {onclick: ()=>this.add(player)}, '+')
+                                : v('button', {onclick: ()=>this.remove(player)}, 'x')
+                        )
                     ))
             ),
 
             v(FullLineUp,
-                this.positions.map(({player, position}) =>
+                this.slots.map(({player, position}) =>
                     v('tr',
                         v('td', position.name),
                         v('td', player ? player.name : ''),
