@@ -214,15 +214,25 @@ contest-item .slot .big {
     font-size: 35px;
 }
 
-full-line-up {
+full-line-up table{
+    table-layout: fixed;
 }
 
-full-line-up th {
-    width: 10%;
+full-line-up th.pos{
+    width: 50px;
+}
+full-line-up th.fppg{
+    width: 50px;
+}
+full-line-up th.salary{
+    width: 70px;
+}
+full-line-up th.edit{
+    width: 50px;
 }
 
-full-line-up th.team, full-line-up th.player {
-    width: 30%;
+full-line-up button{
+    height: 15px;
 }
 
 radio-buttons {
