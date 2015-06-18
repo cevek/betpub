@@ -44,6 +44,7 @@ export function createElement(tag, props, children) {
                     component.componentWillReceiveProps(props);
                 }
                 component.props = props;
+                this.propsUpdated();
             }
             else {
                 component = new tag(props);
@@ -102,6 +103,7 @@ export class Component {
 
     constructor(props) {
         this.props = props;
+        this.propsUpdated();
     }
 
     root(...args) {
@@ -113,26 +115,19 @@ export class Component {
         return v(name, props, args);
     }
 
+    propsUpdated() {}
 
-    componentDidMount() {
-    }
+    componentDidMount() {}
 
-    componentWillMount() {
-    }
+    componentWillMount() {}
 
-    componentWillUnmount() {
-    }
+    componentWillUnmount() {}
 
-    componentWillUpdate() {
-    }
+    componentWillUpdate() {}
 
+    componentDidUpdate() {}
 
-    componentDidUpdate() {
-    }
-
-    shouldComponentUpdate() {
-    }
-
+    shouldComponentUpdate() {}
 
     setState(state) {
         var equal = true;

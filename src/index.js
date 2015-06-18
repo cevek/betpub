@@ -9,6 +9,7 @@ import {GamePage} from './comp/GamePage';
 import {MainForm} from './comp/MainForm';
 import {v, Component, render} from './lib/V';
 
+
 require('./main.css');
 
 

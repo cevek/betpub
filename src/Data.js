@@ -17,18 +17,22 @@ storage.contestTypes.addAll(json.contestTypes.map(contestTypeJson => new Contest
 storage.playerPositions.addAll(json.positions.map(positionJson => new PlayerPosition(positionJson)));
 storage.players.addAll(json.players.map(playerJson => new Player(playerJson)));
 storage.teams.addAll(json.teams.map(teamJson => new Team(teamJson)));
-storage.leagues.addAll(json.leagues.map(leagueJson => {
-    storage.leagueEventTypes.addAll(leagueJson.events.map(eventJson => {
+storage.leagues.addAll(json.leagues.map(leagueJson => new League(leagueJson)));
+storage.leagueEventTypes.addAll(json.leagueEvents.map(eventJson => new LeagueEventType(eventJson)));
+/*
+
+        return new LeagueEventType(eventJson);
         eventJson.games = eventJson.games.concat(generateGames());
         eventJson.games.forEach(game => game.contests = generateContests());
         storage.games.addAll(eventJson.games.map(gameJson => {
             storage.contests.addAll(gameJson.contests.map(contestJson => new Contest(contestJson)));
             return new Game(gameJson);
         }));
-        return new LeagueEventType(eventJson);
     }));
-    return new League(leagueJson);
 }));
+*/
+
+
 console.log(storage);
 
 

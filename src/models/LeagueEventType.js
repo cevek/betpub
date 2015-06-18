@@ -5,15 +5,16 @@ import {storage} from '../storage';
 
 export class LeagueEventType extends BaseModel {
     name;
-    games;
+    games = [];
     league;
 
     constructor(json) {
         super();
         this.id = json.id;
         this.name = json.name;
-        this.games = json.games.map(gameJson => storage.games.getById(gameJson.id));
-        this.games.forEach(game => game.eventType = this);
+        this.league = storage.leagues.getById(json.leagueId);
+        //this.games = json.games.map(gameJson => storage.games.getById(gameJson.id));
+        //this.games.forEach(game => game.eventType = this);
     }
 }
 export class LeagueEventTypeStore extends BaseStore {}

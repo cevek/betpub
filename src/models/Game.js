@@ -1,5 +1,7 @@
+import {http} from '../http.js';
 import {BaseModel} from './BaseModel';
 import {BaseStore} from './BaseStore';
+import {Contest} from './Contest';
 import {storage} from '../storage';
 
 export class Game extends BaseModel {
@@ -27,6 +29,12 @@ export class Game extends BaseModel {
         return this.minute;
     }
 
+    static url = '/game/';
+
+    static fetch(id) {
+        return http.get(Game.url + id).then(gameJson=> new Game(gameJson));
+    }
+
     constructor(json) {
         super();
         this.id = json.id;
@@ -36,11 +44,11 @@ export class Game extends BaseModel {
         this.period = json.period;
         this.minute = json.minute;
         this.live = Boolean(json.live);
+        this.eventType = storage.leagueEventTypes.getById(json.eventTypeId);
         this.team1 = storage.teams.getById(json.team1Id);
         this.team2 = storage.teams.getById(json.team2Id);
-        this.contests = json.contests.map(contestJson => storage.contests.getById(contestJson.id));
+        this.contests = json.contests.map(contestJson => new Contest(contestJson));
         this.contests.forEach(contest => contest.game = this);
-        this.json = json;
     }
 
     isDay(day, isLive) {

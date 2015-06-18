@@ -1,8 +1,14 @@
-class HTTP {
-    static request(method, url, data) {
+export class HTTP {
+    prefix = '';
+
+    constructor(prefix) {
+        this.prefix = prefix;
+    }
+
+    request(method, url, data) {
         return new Promise((resolve, reject) => {
             let req = new XMLHttpRequest();
-            req.open(method, url, true);
+            req.open(method, this.prefix + url, true);
             req.onreadystatechange = function () {
                 if (req.readyState == 4) {
                     if (req.status == 200) {
@@ -24,10 +30,10 @@ class HTTP {
         });
     }
 
-    static requestRaw(method, url, data, responseType) {
+    requestRaw(method, url, data, responseType) {
         return new Promise((resolve, reject)=> {
             let req = new XMLHttpRequest();
-            req.open(method, url, true);
+            req.open(method, this.prefix + url, true);
             if (responseType) {
                 req.responseType = responseType;
             }
@@ -45,7 +51,7 @@ class HTTP {
         });
     }
 
-    static get(url, raw, responseType) {
-        return raw ? HTTP.requestRaw('GET', url, null, responseType) : HTTP.request('GET', url);
+    get(url, raw, responseType) {
+        return raw ? this.requestRaw('GET', url, null, responseType) : this.request('GET', url);
     }
 }
