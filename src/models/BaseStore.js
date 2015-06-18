@@ -1,4 +1,5 @@
-export class BaseStore {
+import {Observable} from './Observable.js';
+export class BaseStore extends Observable {
     data = [];
     hash = {};
 
@@ -8,7 +9,7 @@ export class BaseStore {
         }
     }
 
-    add(item){
+    add(item) {
         if (this.hash[item.id] == null) {
             this.hash[item.id] = item;
             this.data.push(item);

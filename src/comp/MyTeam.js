@@ -1,5 +1,7 @@
+import {AbstractGamePage} from './AbstractGamePage';
 import {GameInfo} from './GameInfo';
 import {LineUp} from './LineUp';
+import {Loader} from './Loader';
 import {RadioButtons} from './controls/RadioButtons';
 import {ContestItem} from './ContestItem';
 import {v, Component} from './../lib/V';
@@ -8,8 +10,7 @@ import {storage} from '../storage';
 import {formatPrice} from '../Utils';
 
 
-export class MyTeam extends Component {
-    game;
+export class MyTeam extends AbstractGamePage {
     slots = null;
     playersUsed = {};
     emptySlots = {};
@@ -44,25 +45,6 @@ export class MyTeam extends Component {
         return this.game.team1.players.filter(player => player.position === this.activePos || !this.activePos);
     }
 
-    prepareLineUp() {
-        if (!this.slots) {
-            this.slots = [];
-            this.game.eventType.league.positions.forEach(pos => {
-                if (!this.emptySlots[pos.id]) {
-                    this.emptySlots[pos.id] = 0;
-                    this.availablePositions.push(pos);
-                }
-                this.emptySlots[pos.id]++;
-                this.slots.push({player: null, position: pos});
-            });
-        }
-        if (this.salaryRemaining == null) {
-            this.salaryRemaining = this.game.eventType.league.salary;
-            this.salaryAverage = this.salaryRemaining / this.slots.length;
-        }
-    }
-
-
     calcAverage() {
         var emptyCount = 0;
         for (var i in this.emptySlots) {
@@ -81,67 +63,80 @@ export class MyTeam extends Component {
         return this.emptySlots[player.position.id] > 0 && this.salaryRemaining >= player.salary;
     }
 
+    gameLoaded() {
+        this.contest = this.game.contests.filter(contest => contest.id == this.props.params.contestId).pop();
+        console.log(this.contest, this.game.contests, this.props.params.contestId);
+        this.slots = [];
+        this.game.eventType.league.positions.forEach(pos => {
+            if (!this.emptySlots[pos.id]) {
+                this.emptySlots[pos.id] = 0;
+                this.availablePositions.push(pos);
+            }
+            this.emptySlots[pos.id]++;
+            this.slots.push({player: null, position: pos});
+        });
+        this.salaryRemaining = this.game.eventType.league.salary;
+        this.salaryAverage = this.salaryRemaining / this.slots.length;
+    }
+
+
     render() {
-        let id = this.props.params.gameId;
-        let contestId = this.props.params.contestId;
-        this.game = storage.games.getById(id);
-        this.contest = storage.contests.getById(contestId);
-        this.prepareLineUp();
-
         return this.root(
-            v(GameInfo, {game: this.game}),
-            v(ContestItem, {contest: this.contest}),
+            this.game ? v('div',
+                v(GameInfo, {game: this.game}),
+                v(ContestItem, {contest: this.contest}),
 
-            v('.col',
-                v('.info',
-                    v('h3', 'Available players'),
-                    v(RadioButtons, {
-                        active: this.activePos,
-                        items: this.availablePositions,
-                        label: pos => pos.name,
-                        empty: 'All',
-                        onChange: pos=>this.changeFilter(pos)
-                    })
-                ),
-                v(FullLineUp,
-                    this.getPlayers().map(player =>
-                        v('tr',
-                            v('td', player.position.name),
-                            v('td', player.name),
-                            v('td', player.team.name),
-                            v('td', player.FPPG),
-                            v('td', formatPrice(player.salary)),
-                            v('td', this.playersUsed[player.id] == null
-                                    ? this.possibleToAdd(player) && v('button', {onclick: ()=>this.add(player)}, '+')
-                                    : v('button', {onclick: ()=>this.remove(player)}, 'x')
-                            )
-                        ))
-                )
-            ),
-            v('.col',
-                v('.info',
-                    v('h3', 'Your LineUp'),
-                    v('.left',
-                        v('.salary-title', formatPrice(this.salaryRemaining)),
-                        v('div', 'salary remaining')
+                v('.col',
+                    v('.info',
+                        v('h3', 'Available players'),
+                        v(RadioButtons, {
+                            active: this.activePos,
+                            items: this.availablePositions,
+                            label: pos => pos.name,
+                            empty: 'All',
+                            onChange: pos=>this.changeFilter(pos)
+                        })
                     ),
-                    v('.right',
-                        v('.salary-title', formatPrice(this.calcAverage())),
-                        v('div', 'Avg Rem./Player')
+                    v(FullLineUp,
+                        this.getPlayers().map(player =>
+                            v('tr',
+                                v('td', player.position.name),
+                                v('td', player.name),
+                                v('td', player.team.name),
+                                v('td', player.FPPG),
+                                v('td', formatPrice(player.salary)),
+                                v('td', this.playersUsed[player.id] == null
+                                        ? this.possibleToAdd(player) && v('button', {onclick: ()=>this.add(player)}, '+')
+                                        : v('button', {onclick: ()=>this.remove(player)}, 'x')
+                                )
+                            ))
                     )
                 ),
-                v(FullLineUp,
-                    this.slots.map(({player, position}) =>
-                        v('tr',
-                            v('td', position.name),
-                            v('td', player ? player.name : ''),
-                            v('td', player ? player.team.name : ''),
-                            v('td', player ? player.FPPG : ''),
-                            v('td', player ? formatPrice(player.salary) : ''),
-                            v('td', player && v('button', {onclick: ()=>this.remove(player)}, 'x'))
-                        ))
+                v('.col',
+                    v('.info',
+                        v('h3', 'Your LineUp'),
+                        v('.left',
+                            v('.salary-title', formatPrice(this.salaryRemaining)),
+                            v('div', 'salary remaining')
+                        ),
+                        v('.right',
+                            v('.salary-title', formatPrice(this.calcAverage())),
+                            v('div', 'Avg Rem./Player')
+                        )
+                    ),
+                    v(FullLineUp,
+                        this.slots.map(({player, position}) =>
+                            v('tr',
+                                v('td', position.name),
+                                v('td', player ? player.name : ''),
+                                v('td', player ? player.team.name : ''),
+                                v('td', player ? player.FPPG : ''),
+                                v('td', player ? formatPrice(player.salary) : ''),
+                                v('td', player && v('button', {onclick: ()=>this.remove(player)}, 'x'))
+                            ))
+                    )
                 )
-            )
+            ) : v(Loader)
         );
     }
 }

@@ -55,33 +55,34 @@ class MockHTTP {
 
 export let http = new MockHTTP();
 
-
 let gameId = 100;
 function generateGame(id) {
     if (!id) {
         id = gameId++;
     }
     return {
-        "id": id++,
+        "id": id,
         "generated": true,
         "date": new Date(2015, 5, id, 17).toISOString(),
         "team1Id": (id * 14) % 6 + 1,
         "team2Id": (id * 11) % 6 + 1,
         "eventTypeId": id % 2 + 1,
-        "contests": generateContests()
+        "contests": generateContests(id)
     };
 }
 
 
-let contestId = 100;
-function generateContests() {
-    let entries = (contestId + 7) % 20;
-    return storage.contestTypes.data.map((type, k) => ({
-        id: contestId++,
-        typeId: type.id,
-        entries: entries,
-        myPoints: contestId * (k + 1) % 36,
-        myPlace: (contestId + k) % 5 + 1,
-        prizes: entries * type.entryFee
-    }));
+function generateContests(gameId) {
+    return storage.contestTypes.data.map((type, k) => {
+        var contestId = +gameId + k * 100;
+        let entries = (contestId + 7) % 20;
+        return {
+            id: contestId,
+            typeId: type.id,
+            entries: entries,
+            myPoints: contestId * (k + 1) % 36,
+            myPlace: (contestId + k) % 5 + 1,
+            prizes: entries * type.entryFee
+        }
+    });
 }

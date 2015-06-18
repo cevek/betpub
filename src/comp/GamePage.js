@@ -1,29 +1,17 @@
-import {Game} from '../models/Game';
-import {Team} from '../models/Team';
+import {AbstractGamePage} from './AbstractGamePage';
 import {GameInfo} from './GameInfo';
 import {Loader} from './Loader';
 import {LineUp} from './LineUp';
 import {v, Component} from './../lib/V';
 import {go} from './../lib/Router';
-import {storage} from '../storage';
+import {routes} from '../routes';
+//import {storage} from '../storage';
 
 
-export class GamePage extends Component {
+export class GamePage extends AbstractGamePage {
     enterGame(gameId) {
-        go('/contests/' + gameId);
+        routes.gameContests.goto({id: gameId});
     }
-
-    game;
-
-    propsUpdated() {
-        this.game = null;
-        let id = this.props.params.id;
-        Game.fetch(id).then(game=> {
-            this.game = game;
-            this.forceUpdate();
-        });
-    }
-
 
     render() {
         let game = this.game;

@@ -5,21 +5,23 @@ import {LineUp} from './LineUp';
 import {go} from '../lib/Router';
 import {getOrdinal, formatPrice} from '../Utils';
 import {storage} from '../storage';
+import {routes} from '../routes';
+import {AbstractGamePage} from './AbstractGamePage';
+import {Loader} from './Loader';
 
-
-export class ContestsPage extends Component {
+export class ContestsPage extends AbstractGamePage {
     selectContest(game, contest) {
-        go('/myteam/' + game.id + '/' + contest.id);
+        routes.gameContestItem.goto({id: game.id, contestId: contest.id});
     }
 
     render() {
-        let id = this.props.params.gameId;
-        let game = storage.games.getById(id);
-
+        let game = this.game;
         return this.root(
-            v(GameInfo, {game: game}),
-            game.contests.map(contest =>
-                v(ContestItem, {onclick: ()=>this.selectContest(game, contest), contest: contest}))
+            game ? v('div',
+                v(GameInfo, {game: game}),
+                game.contests.map(contest =>
+                    v(ContestItem, {onclick: ()=>this.selectContest(game, contest), contest: contest}))
+            ) : v(Loader)
         );
     }
 }

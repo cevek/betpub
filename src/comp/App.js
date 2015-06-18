@@ -2,6 +2,7 @@ import '../storage';
 import '../Utils';
 import {v, Component} from './../lib/V';
 import {Router, Route} from './../lib/Router';
+import {routes} from '../routes';
 
 import {MainForm} from './MainForm';
 import {GamePage} from './GamePage';
@@ -30,10 +31,10 @@ export class App extends Component {
             //v('button', {onclick: ()=>this.toggle()}, 'toogle'),
             //this.visible && v(MainForm)
             v(Router,
-                v(Route, {path: '/', handler: MainForm}),
-                v(Route, {path: '/game/:id/', handler: GamePage}),
-                v(Route, {path: '/contests/:gameId/', handler: ContestsPage}),
-                v(Route, {path: '/myteam/:gameId/:contestId', handler: MyTeam}),
+                v(Route, {path: routes.index, handler: MainForm}),
+                v(Route, {path: routes.game, handler: GamePage}),
+                v(Route, {path: routes.gameContests, handler: ContestsPage}),
+                v(Route, {path: routes.gameContestItem, handler: MyTeam}),
                 v(Route, {path: '*', handler: NotFound})
             )
         );

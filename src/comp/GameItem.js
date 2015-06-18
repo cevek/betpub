@@ -1,13 +1,15 @@
 import {getOrdinal, formatAMPM} from '../Utils';
 import {v, Component} from './../lib/V';
 import {go} from './../lib/Router';
+import {routes} from '../routes';
+
 
 
 export class GameItem extends Component {
     dontConsole = true;
 
     click() {
-        go('/game/' + this.props.game.id);
+        routes.game.goto({id: this.props.game.id});
     }
 
     render() {

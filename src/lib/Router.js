@@ -16,6 +16,7 @@ export function go(url) {
     }
     scrollData[location.href] = 0;
 }
+
 var allRouters = [];
 export class Router extends Component {
     activeComponent;
@@ -67,14 +68,10 @@ export class Router extends Component {
 
         this.activeComponent = this.emptyRoute;
         for (var i = 0; i < this.routes.length; i++) {
-            var route = this.routes[i];
-            var m;
-            if (m = route.regexp.exec(url)) {
-                var params = {};
-                for (var j = 0; j < route.names.length; j++) {
-                    params[route.names[j]] = m[j + 1];
-                }
-                this.activeComponent = route.handler;
+            var {route, handler} = this.routes[i];
+            var params = route.check(url);
+            if (params) {
+                this.activeComponent = handler;
                 this.activeProps = params;
             }
         }
@@ -85,20 +82,18 @@ export class Router extends Component {
         this.routes = [];
         for (var i = 0; i < children.length; i++) {
             var handler = children[i].props.handler;
-            var url = children[i].props.path;
-            if (url === '*') {
-                this.emptyRoute = handler;
-                return;
+            var path = children[i].props.path;
+            var route = path;
+            if (typeof path == 'string') {
+                if (path === '*') {
+                    this.emptyRoute = handler;
+                    return;
+                }
+                else {
+                    route = new Route(path);
+                }
             }
-            url = '/' + url.replace(/(^\/+|\/+$)/g, '');
-            url = url === '/' ? url : url + '/';
-            var v;
-            var reg = /:([^\/]+)/g;
-            var names = [];
-            while (v = reg.exec(url))
-                names.push(v[1]);
-            var regexp = new RegExp('^' + url.replace(/(:([^\/]+))/g, '([^\/]+)') + '?$');
-            this.routes.push({regexp: regexp, names: names, handler: handler});
+            this.routes.push({route: route, handler: handler});
         }
     }
 
@@ -113,5 +108,51 @@ export class Router extends Component {
     }
 }
 
-export class Route extends Component {
+export class Route {
+    regexp;
+    names;
+    url;
+
+    constructor(url) {
+        url = '/' + url.replace(/(^\/+|\/+$)/g, '');
+        url = url === '/' ? url : url + '/';
+        this.url = url;
+        var v;
+        var reg = /:([^\/]+)/g;
+        var names = [];
+        while (v = reg.exec(url))
+            names.push(v[1]);
+        this.names = names;
+        this.regexp = new RegExp('^' + url.replace(/(:([^\/]+))/g, '([^\/]+)') + '?$');
+    }
+
+    check(url) {
+        var m;
+        if (m = this.regexp.exec(url)) {
+            var params = {};
+            for (var j = 0; j < this.names.length; j++) {
+                params[this.names[j]] = m[j + 1];
+            }
+            return params;
+        }
+        return null;
+    }
+
+    toUrl(params) {
+        var url = this.url;
+        for (var key in params) {
+            var reg = /:([^\/]+)/g;
+            url = url.replace(new RegExp(':' + key + '(/|$)'), params[key] + '$1');
+        }
+        return url;
+    }
+
+    goto(params){
+        go(this.toUrl(params));
+    }
+
+}
+
+export class Page extends Component {
+
 }
