@@ -110,7 +110,7 @@ var cito = window.cito || {};
             }
         }
     }
-    
+
     // TODO find solution without empty text placeholders
     function emptyTextNode() {
         return document.createTextNode('');
@@ -266,7 +266,7 @@ var cito = window.cito || {};
                 }
 
                 if (attrs) {
-                    updateAttributes(domNode, tag, attrs);
+                    updateAttributes(domNode, tag, ns, attrs);
                 }
                 var events = node.events;
                 if (events) {
@@ -594,7 +594,7 @@ var cito = window.cito || {};
         node.domLength = domLength;
     }
 
-    function updateAttributes(domElement, tag, attrs, oldAttrs, recordChanges) {
+    function updateAttributes(domElement, tag, ns, attrs, oldAttrs, recordChanges) {
         var changes, attrName;
         if (attrs) {
             for (attrName in attrs) {
@@ -611,7 +611,7 @@ var cito = window.cito || {};
                         changed = true;
                     }
                 } else if (!oldAttrs || oldAttrs[attrName] !== attrValue) {
-                    if (attrName === 'class') {
+                    if (attrName === 'class' && !ns) {
                         domElement.className = attrValue;
                     } else {
                         updateAttribute(domElement, attrName, attrValue);
@@ -626,7 +626,7 @@ var cito = window.cito || {};
         if (oldAttrs) {
             for (attrName in oldAttrs) {
                 if ((!attrs || attrs[attrName] === undefined)) {
-                    if (attrName === 'class') {
+                    if (attrName === 'class' && !ns) {
                         domElement.className = '';
                     } else if (!isInputProperty(tag, attrName)) {
                         domElement.removeAttribute(attrName);
@@ -828,11 +828,11 @@ var cito = window.cito || {};
         // TODO use setStartBefore/setEndAfter for faster range delete
         /*
          } else if (hasRange && count === children.length) {
-            for (i = from; i < to; i++) {
-                destroyNode(children[i]);
-            }
-            range.selectNodeContents(domElement);
-            range.deleteContents();
+         for (i = from; i < to; i++) {
+         destroyNode(children[i]);
+         }
+         range.selectNodeContents(domElement);
+         range.deleteContents();
          */
     }
 
@@ -997,7 +997,7 @@ var cito = window.cito || {};
             }
             nextChild = (endIndex + 1 < childrenLength) ? normIndex(children, endIndex + 1) : outerNextChild;
             for (i = endIndex; i >= startIndex; i--) {
-                child = children[i];
+                child = normIndex(children, i);
                 var key = child.key;
                 oldChild = oldChildrenMap[key];
                 if (oldChild) {
@@ -1127,7 +1127,7 @@ var cito = window.cito || {};
                     var events = node.events, oldEvents = oldNode.events;
                     if (attrs !== oldAttrs) {
                         var changedHandlers = events && events.$changed;
-                        var changes = updateAttributes(domNode, tag, attrs, oldAttrs, !!changedHandlers);
+                        var changes = updateAttributes(domNode, tag, ns, attrs, oldAttrs, !!changedHandlers);
                         if (changes) {
                             triggerLight(changedHandlers, '$changed', domNode, node, 'changes', changes);
                         }
@@ -1270,37 +1270,37 @@ var cito = window.cito || {};
 
     // TODO create promise utility
     /*
-    function isPromise(value) {
-        return value.then !== undefined;
-    }
+     function isPromise(value) {
+     return value.then !== undefined;
+     }
 
-    if (origChild && isPromise(origChild)) {
-        child = {};
-        var immediate = true;
-        origChild.then(function (newChild) {
-            if (immediate) {
-                child = norm(newChild, oldChild);
-            } else if (children[i] === child) {
-                vdom.update(child, newChild);
-            }
-        });
-        immediate = false;
-    }
+     if (origChild && isPromise(origChild)) {
+     child = {};
+     var immediate = true;
+     origChild.then(function (newChild) {
+     if (immediate) {
+     child = norm(newChild, oldChild);
+     } else if (children[i] === child) {
+     vdom.update(child, newChild);
+     }
+     });
+     immediate = false;
+     }
 
-    if (isPromise(children)) {
-        children = [];
-        var immediate = true;
-        origChildren.then(function (newChildren) {
-            if (immediate) {
-                children = normChildren(node, newChildren, oldChildren);
-            }
-            // TODO if the parent has been updated too, then this is misleading
-            else if (node.children === children) {
-                vdom.updateChildren(node, newChildren);
-            }
-        });
-        immediate = false;
-    }
-    */
+     if (isPromise(children)) {
+     children = [];
+     var immediate = true;
+     origChildren.then(function (newChildren) {
+     if (immediate) {
+     children = normChildren(node, newChildren, oldChildren);
+     }
+     // TODO if the parent has been updated too, then this is misleading
+     else if (node.children === children) {
+     vdom.updateChildren(node, newChildren);
+     }
+     });
+     immediate = false;
+     }
+     */
 
 })(cito, window);

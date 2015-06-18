@@ -18,9 +18,9 @@ export class GameInfo extends Component {
             ),
             v('.team.team1', game.team1.name),
             game.isLive() &&
-            v('.score',
-                v('.big', game.team1Score + ':' + game.team2Score),
-                v('', game.activeMinute() + "' " + getOrdinal(game.activePeriod()) + ' period')
+                v('.score',
+                    v('.big', game.team1Score + ':' + game.team2Score),
+                    v('', game.activeMinute() + "' " + getOrdinal(game.activePeriod()) + ' period')
             ),
             v('.team.team2', game.team2.name)
         );

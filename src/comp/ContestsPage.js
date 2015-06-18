@@ -15,13 +15,13 @@ export class ContestsPage extends AbstractGamePage {
     }
 
     render() {
-        let game = this.game;
+        if (!this.game) {
+            return this.root(v(Loader));
+        }
         return this.root(
-            game ? v('div',
-                v(GameInfo, {game: game}),
-                game.contests.map(contest =>
-                    v(ContestItem, {onclick: ()=>this.selectContest(game, contest), contest: contest}))
-            ) : v(Loader)
+            v(GameInfo, {game: this.game}),
+            this.game.contests.map(contest =>
+                v(ContestItem, {onclick: ()=>this.selectContest(this.game, contest), contest: contest}))
         );
     }
 }

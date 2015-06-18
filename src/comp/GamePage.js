@@ -15,20 +15,22 @@ export class GamePage extends AbstractGamePage {
 
     render() {
         let game = this.game;
+        if (!game) {
+            return this.root(v(Loader));
+        }
+
         return this.root(
-            game ? v('div',
-                v(GameInfo, {game: game}),
+            v(GameInfo, {game: game}),
 
-                v('.enter', {onclick: ()=>this.enterGame(game.id)},
-                    v('button', 'Enter this game')
-                ),
+            v('.enter', {onclick: ()=>this.enterGame(game.id)},
+                v('button', 'Enter this game')
+            ),
 
-                v('h3', 'Lineup – ' + game.team1.name),
-                v(LineUp, {players: game.team1.players}),
+            v('h3', 'Lineup – ' + game.team1.name),
+            v(LineUp, {players: game.team1.players}),
 
-                v('h3', 'Lineup – ' + game.team2.name),
-                v(LineUp, {players: game.team2.players})
-            ) : v(Loader)
+            v('h3', 'Lineup – ' + game.team2.name),
+            v(LineUp, {players: game.team2.players})
         );
     }
 }

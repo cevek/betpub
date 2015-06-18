@@ -81,62 +81,64 @@ export class MyTeam extends AbstractGamePage {
 
 
     render() {
-        return this.root(
-            this.game ? v('div',
-                v(GameInfo, {game: this.game}),
-                v(ContestItem, {contest: this.contest}),
+        if (!this.game) {
+            return this.root(v(Loader));
+        }
 
-                v('.col',
-                    v('.info',
-                        v('h3', 'Available players'),
-                        v(RadioButtons, {
-                            active: this.activePos,
-                            items: this.availablePositions,
-                            label: pos => pos.name,
-                            empty: 'All',
-                            onChange: pos=>this.changeFilter(pos)
-                        })
+        return this.root(
+            v(GameInfo, {game: this.game}),
+            v(ContestItem, {contest: this.contest}),
+
+            v('.col',
+                v('.info',
+                    v('h3', 'Available players'),
+                    v(RadioButtons, {
+                        active: this.activePos,
+                        items: this.availablePositions,
+                        label: pos => pos.name,
+                        empty: 'All',
+                        onChange: pos=>this.changeFilter(pos)
+                    })
+                ),
+                v(FullLineUp,
+                    this.getPlayers().map(player =>
+                        v('tr',
+                            v('td', player.position.name),
+                            v('td', player.name),
+                            v('td', player.team.name),
+                            v('td', player.FPPG),
+                            v('td', formatPrice(player.salary)),
+                            v('td', this.playersUsed[player.id] == null
+                                    ? this.possibleToAdd(player) && v('button', {onclick: ()=>this.add(player)}, '+')
+                                    : v('button', {onclick: ()=>this.remove(player)}, 'x')
+                            )
+                        ))
+                )
+            ),
+            v('.col',
+                v('.info',
+                    v('h3', 'Your LineUp'),
+                    v('.left',
+                        v('.salary-title', formatPrice(this.salaryRemaining)),
+                        v('div', 'salary remaining')
                     ),
-                    v(FullLineUp,
-                        this.getPlayers().map(player =>
-                            v('tr',
-                                v('td', player.position.name),
-                                v('td', player.name),
-                                v('td', player.team.name),
-                                v('td', player.FPPG),
-                                v('td', formatPrice(player.salary)),
-                                v('td', this.playersUsed[player.id] == null
-                                        ? this.possibleToAdd(player) && v('button', {onclick: ()=>this.add(player)}, '+')
-                                        : v('button', {onclick: ()=>this.remove(player)}, 'x')
-                                )
-                            ))
+                    v('.right',
+                        v('.salary-title', formatPrice(this.calcAverage())),
+                        v('div', 'Avg Rem./Player')
                     )
                 ),
-                v('.col',
-                    v('.info',
-                        v('h3', 'Your LineUp'),
-                        v('.left',
-                            v('.salary-title', formatPrice(this.salaryRemaining)),
-                            v('div', 'salary remaining')
-                        ),
-                        v('.right',
-                            v('.salary-title', formatPrice(this.calcAverage())),
-                            v('div', 'Avg Rem./Player')
-                        )
-                    ),
-                    v(FullLineUp,
-                        this.slots.map(({player, position}) =>
-                            v('tr',
-                                v('td', position.name),
-                                v('td', player ? player.name : ''),
-                                v('td', player ? player.team.name : ''),
-                                v('td', player ? player.FPPG : ''),
-                                v('td', player ? formatPrice(player.salary) : ''),
-                                v('td', player && v('button', {onclick: ()=>this.remove(player)}, 'x'))
-                            ))
-                    )
+                v(FullLineUp,
+                    this.slots.map(({player, position}) =>
+                        v('tr',
+                            v('td', position.name),
+                            v('td', player ? player.name : ''),
+                            v('td', player ? player.team.name : ''),
+                            v('td', player ? player.FPPG : ''),
+                            v('td', player ? formatPrice(player.salary) : ''),
+                            v('td', player && v('button', {onclick: ()=>this.remove(player)}, 'x'))
+                        ))
                 )
-            ) : v(Loader)
+            )
         );
     }
 }

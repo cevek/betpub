@@ -56,7 +56,7 @@ export function createElement(tag, props, children) {
             let node = component.render();
             if (!node) {
                 node = new VNode();
-                node.tag = 'div';
+                node.tag = '!';
                 node.children = '';
             }
             else {
