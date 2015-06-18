@@ -1,4 +1,4 @@
-{
+export let json = {
   "positions": [
     {
       "id": 1,
@@ -131,93 +131,12 @@
     {
       "id": 1,
       "name": "Playoffs",
-      "leagueId": 1,
-      "games": [
-        {
-          "id": 1,
-          "date": "2015-06-14T16:00:00Z",
-          "live": true,
-          "team1Score": 58,
-          "team2Score": 25,
-          "minute": 10,
-          "period": 2,
-          "team1Id": 1,
-          "team2Id": 2,
-          "contests": []
-        },
-        {
-          "id": 2,
-          "date": "2015-06-14T16:30:00Z",
-          "live": true,
-          "team1Score": 18,
-          "team2Score": 7,
-          "minute": 2,
-          "period": 1,
-          "team1Id": 3,
-          "team2Id": 4,
-          "contests": []
-        },
-        {
-          "id": 3,
-          "date": "2015-06-14T18:00:00Z",
-          "team1Id": 1,
-          "team2Id": 2,
-          "contests": []
-        },
-        {
-          "date": "2015-06-14T18:30:00Z",
-          "team1Id": 3,
-          "team2Id": 4,
-          "contests": []
-        },
-        {
-          "id": 4,
-          "date": "2015-06-15T18:00:00Z",
-          "team1Id": 1,
-          "team2Id": 2,
-          "contests": []
-        },
-        {
-          "id": 5,
-          "date": "2015-06-15T18:30:00Z",
-          "team1Id": 3,
-          "team2Id": 4,
-          "contests": []
-        }
-      ]
+      "leagueId": 1
     },
     {
       "id": 2,
       "name": "Eastern Conference Final",
-      "leagueId": 2,
-      "games": [
-        {
-          "id": 6,
-          "date": "2015-06-14T15:00:00Z",
-          "live": true,
-          "team1Score": 0,
-          "team2Score": 2,
-          "minute": 5,
-          "period": 1,
-          "team1Id": 5,
-          "team2Id": 6,
-          "contests": []
-        },
-        {
-          "id": 7,
-          "date": "2015-06-14T17:00:00Z",
-          "team1Id": 5,
-          "team2Id": 6,
-          "contests": []
-        },
-        {
-          "id": 8,
-          "date": "2015-06-15T17:00:00Z",
-          "team1Id": 5,
-          "team2Id": 6,
-          "contests": []
-        }
-      ]
+      "leagueId": 2
     }
   ],
   "leagues": [
@@ -232,4 +151,4 @@
       "positions": [1,2,3,4,4]
     }
   ]
-}
+};

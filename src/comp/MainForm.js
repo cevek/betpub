@@ -1,8 +1,8 @@
 import {MainFilters} from './MainFilters';
+import {Loader} from './Loader';
 import {GameList} from './GameList';
 import {v, Component} from './../lib/V';
 import {storage} from '../storage';
-
 
 export class MainForm extends Component {
     state = {filterDate: null, filterLeague: null};
@@ -44,27 +44,39 @@ export class MainForm extends Component {
         });
     }
 
+    ready = false;
+
+    propsUpdated() {
+        this.ready = false;
+        storage.ready.then(()=> {
+            this.ready = true;
+            this.forceUpdate();
+        });
+    }
+
 
     render() {
         this.filterGames();
         return this.root(
-            //v('div', this.props.params.id),
-            v(MainFilters, {
-                active: this.state.filterLeague,
-                onChange: (league)=>this.setLeague(league)
-            }),
+            this.ready ? v('div',
+                //v('div', this.props.params.id),
+                v(MainFilters, {
+                    active: this.state.filterLeague,
+                    onChange: (league)=>this.setLeague(league)
+                }),
 
-            v('h2', 'Live'),
-            v(GameList, {games: this.liveGames}),
+                v('h2', 'Live'),
+                v(GameList, {games: this.liveGames}),
 
-            v('h2', 'Scheduled'),
-            v('input', {onInput: (e)=>this.changeDate(new Date(e.target.value)), type: 'date'}),
+                v('h2', 'Scheduled'),
+                v('input', {onInput: (e)=>this.changeDate(new Date(e.target.value)), type: 'date'}),
 
-            Object.keys(this.dayGames).map(dayInt => this.dayGames[dayInt].games.length ?
-                v('div', {key: dayInt},
-                    v('h3', this.dayGames[dayInt].day.toDateString()),
-                    v(GameList, {games: this.dayGames[dayInt].games})
-                ) : null)
-        )
+                Object.keys(this.dayGames).map(dayInt => this.dayGames[dayInt].games.length ?
+                    v('div', {key: dayInt},
+                        v('h3', this.dayGames[dayInt].day.toDateString()),
+                        v(GameList, {games: this.dayGames[dayInt].games})
+                    ) : null)
+            ) : v(Loader)
+        );
     }
 }

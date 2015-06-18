@@ -2,27 +2,45 @@ import {HTTP} from './lib/HTTP';
 import {storage} from './storage';
 //export let http = new HTTP('/api/v1/');
 
-import json from 'json!./mock.json';
+import {json} from './mock.js';
 
 
 class MockHTTP {
     get(url) {
         return new Promise((resolve, reject)=> {
-            var m;
-            if (m = url.match(/^\/game\/(\d+)$/)) {
-                setTimeout(()=> {
-                    resolve(generateGame(m[1]));
-                }, 500);
-            }
-            if (url.match(/^\/gamelist$/)) {
-                setTimeout(()=> {
+            setTimeout(()=> {
+                var m;
+                if (m = url.match(/^\/game\/(\d+)$/)) {
+                    setTimeout(()=> {
+                        resolve(generateGame(m[1]));
+                    }, 500);
+                }
+                if (url === '/games') {
                     var games = [];
                     for (var i = 0; i < 10; i++) {
                         games.push(generateGame());
                     }
                     resolve(games);
-                }, 500);
-            }
+                }
+                if (url === '/teams') {
+                    resolve(json.teams);
+                }
+                if (url === '/leagues') {
+                    resolve(json.leagues);
+                }
+                if (url === '/events') {
+                    resolve(json.leagueEvents);
+                }
+                if (url === '/contest-types') {
+                    resolve(json.contestTypes);
+                }
+                if (url === '/player-positions') {
+                    resolve(json.positions);
+                }
+                if (url === '/league-events') {
+                    resolve(json.leagueEvents);
+                }
+            }, 500);
         });
 
     }

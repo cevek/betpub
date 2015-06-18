@@ -44,7 +44,7 @@ export function createElement(tag, props, children) {
                     component.componentWillReceiveProps(props);
                 }
                 component.props = props;
-                this.propsUpdated();
+                component.propsUpdated();
             }
             else {
                 component = new tag(props);

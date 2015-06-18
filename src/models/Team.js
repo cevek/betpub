@@ -10,8 +10,8 @@ export class Team extends BaseModel {
         super();
         this.id = json.id;
         this.name = json.name;
-        this.players = json.players.map(playerId => storage.players.getById(playerId));
-        this.players.forEach(player => player.team = this);
+        //this.players = json.players.map(playerId => storage.players.getById(playerId));
+        //this.players.forEach(player => player.team = this);
     }
 }
 

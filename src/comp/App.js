@@ -1,5 +1,4 @@
 import '../storage';
-import '../Data';
 import '../Utils';
 import {v, Component} from './../lib/V';
 import {Router, Route} from './../lib/Router';
@@ -23,6 +22,7 @@ export class App extends Component {
         this.visible = !this.visible;
         this.forceUpdate();
     }
+
 
     render() {
         return this.root(
