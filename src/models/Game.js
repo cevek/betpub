@@ -2,6 +2,7 @@ import {http} from '../http.js';
 import {BaseModel} from './BaseModel';
 import {BaseStore} from './BaseStore';
 import {Contest} from './Contest';
+import {Team} from './Team';
 import {storage} from '../storage';
 
 export class Game extends BaseModel {
@@ -32,7 +33,17 @@ export class Game extends BaseModel {
     static url = '/game/';
 
     static fetch(id) {
-        return http.get(Game.url + id).then(gameJson=> new Game(gameJson));
+        return http.get(Game.url + id).then(gameJson=>
+            Promise.all([
+                Team.fetch(gameJson.team1Id),
+                Team.fetch(gameJson.team2Id)
+            ]).then(([team1, team2])=> {
+                let game = new Game(gameJson);
+                storage.teams.addAll([team1, team2]);
+                game.team1 = team1;
+                game.team2 = team2;
+                return game;
+            }));
     }
 
     constructor(json) {

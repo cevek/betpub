@@ -1,4 +1,5 @@
 import {Game} from '../models/Game';
+import {Team} from '../models/Team';
 import {GameInfo} from './GameInfo';
 import {Loader} from './Loader';
 import {LineUp} from './LineUp';

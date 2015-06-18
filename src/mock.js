@@ -36,32 +36,32 @@ export let json = {
     {
       "id": 1,
       "name": "Houston Rockets",
-      "players": [6, 3, 10, 11, 5, 2, 8, 7, 9, 4, 1]
+      "playerIds": [6, 3, 10, 11, 5, 2, 8, 7, 9, 4, 1]
     },
     {
       "id": 2,
       "name": "Golden State Warriors",
-      "players": [2, 11, 7, 3, 8, 5, 6, 1, 10, 4, 9]
+      "playerIds": [2, 11, 7, 3, 8, 5, 6, 1, 10, 4, 9]
     },
     {
       "id": 3,
       "name": "Chicago Bulls",
-      "players": [3, 2, 10, 8, 6, 11, 9, 1, 4, 7, 5]
+      "playerIds": [3, 2, 10, 8, 6, 11, 9, 1, 4, 7, 5]
     },
     {
       "id": 4,
       "name": "Philadelphia 76e",
-      "players": [10, 3, 7, 8, 2, 4, 11, 1, 9, 6, 5]
+      "playerIds": [10, 3, 7, 8, 2, 4, 11, 1, 9, 6, 5]
     },
     {
       "id": 5,
       "name": "New York Rangers",
-      "players": [8, 7, 4, 1, 9, 11, 10, 2, 3, 5, 6]
+      "playerIds": [8, 7, 4, 1, 9, 11, 10, 2, 3, 5, 6]
     },
     {
       "id": 6,
       "name": "Tampa Bay Lighting",
-      "players": [11, 9, 5, 1, 10, 7, 2, 8, 3, 6, 4]
+      "playerIds": [11, 9, 5, 1, 10, 7, 2, 8, 3, 6, 4]
     }
   ],
   "players": [

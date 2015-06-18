@@ -8,12 +8,19 @@ import {json} from './mock.js';
 class MockHTTP {
     get(url) {
         return new Promise((resolve, reject)=> {
+            console.log(url);
             setTimeout(()=> {
                 var m;
                 if (m = url.match(/^\/game\/(\d+)$/)) {
-                    setTimeout(()=> {
-                        resolve(generateGame(m[1]));
-                    }, 500);
+                    let id = m[1];
+                    resolve(generateGame(id));
+                }
+                if (m = url.match(/^\/team\/(\d+)$/)) {
+                    let id = m[1];
+                    resolve(json.teams.filter(team => {
+                        team.players = team.playerIds.map(playerId => json.players.filter(p => p.id == playerId).pop());
+                        return team.id == id
+                    }).pop());
                 }
                 if (url === '/games') {
                     var games = [];
