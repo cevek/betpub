@@ -1,0 +1,171 @@
+<div id="test">
+    <Blow>
+        <hello>
+            <div x:classes="{strip: ::isActive()}" class="item {{::cls}}" x:on:click="::doit()" x:if="::what" x:repeat="item as ::fuck.filter">
+                {{item.hello}}
+                <span>doit</span>
+            </div>
+            <div x:else x:repeat="item as storage.fuck">
+                {{item.blow}}
+            </div>
+            <div x:if="true">Yow</div>
+            {{children}}
+        </hello>
+        <div x:if="yap" x:on:click="::doit" x:key="what">xcond</div>
+    </Blow>
+</div>
+
+<script type="text/javascript">
+    var xml = document.querySelector('#test');
+    //    var parsed = parser.parseFromString(xml.innerHTML, 'text/xml');
+    var parsed = xml;
+
+    function replace(value) {
+        return JSON.stringify(value).replace(/\{\{(.*?)\}\}/g, function (m, v) {
+            return '" + ' + v.replace('::', 'self.') + ' + "'
+        }).replace(' + ""', '').replace('"" + ', '');
+
+    }
+
+    function parse(xml, deep, prevChilds) {
+        if (xml instanceof Text) {
+            var txt = xml.textContent.trim();
+            if (!txt) {
+                return '';
+            }
+            txt = replace(txt);
+        }
+        var prevChild = prevChilds[prevChilds.length - 1];
+        console.dir(xml);
+        var attrS = '';
+        var attrs = xml.attributes;
+        attrS += '{';
+        var repeat = null;
+        var condition = null;
+        var elseCond = null;
+        var key = null;
+        var events = [];
+        if (attrs) {
+            for (var i = 0; i < attrs.length; i++) {
+                var attr = attrs[i];
+                var value = '';
+                var attrName = attr.name;
+                var short = false;
+                if (attr.name.substring(0, 2) == 'x:') {
+                    attrName = attr.name.substring(2);
+                    value = attr.value.replace(/::/g, 'self.');
+                    short = true;
+                }
+                if (attrName === 'repeat') {
+                    var aa = value.split(' as ');
+                    repeat = {args: aa[0], items: aa[1]};
+                    continue;
+                }
+                if (attrName === 'if') {
+                    condition = value;
+                    continue;
+                }
+                if (attrName === 'else') {
+                    elseCond = true;
+                    continue;
+                }
+                if (attrName === 'key') {
+                    key = value;
+                    continue;
+                }
+                console.log(attrName);
+
+                if (attrName.substring(0, 3) === 'on:') {
+                    events.push({event: attrName.substring(3), value: value});
+                    continue;
+                }
+                if (!short) {
+                    value = replace(attr.value);
+                }
+
+                attrS += (i === 0 ? '' : ', ') + attrName + ': ' + (value || 'null');
+            }
+        }
+        attrS += '}';
+        if (attrS == '{}') {
+            attrS = '';
+        }
+
+
+        var s = '';
+        if (prevChild) {
+            if (prevChild.condition) {
+                if (elseCond) {
+                    s += '\n' + deep + ': ';
+                    deep += '  ';
+                }
+                else {
+                    s += ' : {},\n' + deep;
+                }
+            }
+            else {
+                s += ',\n' + deep;
+            }
+        }
+        else {
+            s += deep;
+        }
+        if (condition !== null) {
+            s += condition + '\n' + deep + '? ';
+            deep += '  ';
+        }
+
+        if (repeat) {
+            deep += '  ';
+            s += '{children: ' + repeat.items + '.map(function(' + repeat.args + '){return(\n' + deep;
+        }
+
+        if (txt) {
+            s += txt;
+        }
+        else {
+            var tag = xml.tagName.toLowerCase();
+            var props = [];
+            if (attrS) {
+                props.push('attrs: ' + attrS);
+            }
+            if (key) {
+                var keyS = JSON.stringify(key);
+                props.push('key: ' + keyS);
+            }
+            if (events.length > 0) {
+                var eventsS = 'events: {';
+                for (var i = 0; i < events.length; i++) {
+                    var event = events[i];
+                    eventsS += (i === 0 ? '' : ', ') + event.event + ': ' + event.value;
+                }
+                eventsS += '}';
+                props.push(eventsS);
+            }
+
+            s += '{tag: "' + tag + '", ' + props.join(", ") + (props.length ? ', ' : '') + 'children: [\n';
+
+            var _prevChilds = [];
+            for (var i = 0; i < xml.childNodes.length; i++) {
+                var child = xml.childNodes[i];
+                s += parse(child, deep + '  ', _prevChilds);
+            }
+
+            var _prevChild = _prevChilds[_prevChilds.length - 1];
+            if (_prevChild && _prevChild.condition != null) {
+                s += ' : {}';
+            }
+            s += '\n' + deep + ']';
+            if (repeat) {
+                s += '})})';
+            }
+            s += '}';
+        }
+        prevChilds.push({tag: tag, text: txt, condition: condition, elseCond: elseCond, repeat: repeat});
+        return s;
+    }
+    var xx = parse(parsed, '', []);
+    console.log(xx);
+
+
+</script>
